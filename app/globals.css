@@ -20,6 +20,15 @@
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 5.5rem;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
 }
 
 body {
@@ -40,15 +49,16 @@ body {
   position: absolute;
   top: var(--ambient-y, 48%);
   left: var(--ambient-x, 54%);
-  width: clamp(32rem, 48vw, 50rem);
+  width: clamp(44rem, 64vw, 75rem);
   aspect-ratio: 1;
   pointer-events: none;
   transform: translate3d(-50%, -50%, 0);
   background:
-    radial-gradient(circle at 34% 30%, rgba(215, 205, 245, 0.28), transparent 54%),
-    radial-gradient(circle at 68% 70%, rgba(240, 218, 205, 0.22), transparent 60%);
-  filter: blur(72px);
-  opacity: 0.65;
+    radial-gradient(ellipse at 29% 26%, rgba(210, 198, 244, 0.42), rgba(210, 198, 244, 0.16) 40%, transparent 72%),
+    radial-gradient(ellipse at 74% 70%, rgba(243, 222, 190, 0.36), rgba(243, 222, 190, 0.13) 42%, transparent 74%),
+    radial-gradient(ellipse at 52% 48%, rgba(242, 207, 202, 0.22), transparent 64%);
+  filter: blur(86px);
+  opacity: 0.78;
   will-change: left, top;
 }
 
@@ -173,7 +183,7 @@ body {
   }
 
   .hero-ambient {
-    opacity: 0.34;
+    opacity: 0.3;
   }
 }
 
@@ -181,8 +191,8 @@ body {
   .hero-ambient {
     top: 44%;
     left: 64%;
-    width: min(105vw, 32rem);
-    filter: blur(64px);
-    opacity: 0.38;
+    width: min(150vw, 46rem);
+    filter: blur(82px);
+    opacity: 0.34;
   }
 }
