@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "lenis/dist/lenis.css";
 
 :root {
   --background: #fafafa;
@@ -25,4 +26,163 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+}
+
+.hero-ambient-wrap {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.hero-ambient {
+  position: absolute;
+  top: var(--ambient-y, 48%);
+  left: var(--ambient-x, 54%);
+  width: clamp(32rem, 48vw, 50rem);
+  aspect-ratio: 1;
+  pointer-events: none;
+  transform: translate3d(-50%, -50%, 0);
+  background:
+    radial-gradient(circle at 34% 30%, rgba(215, 205, 245, 0.28), transparent 54%),
+    radial-gradient(circle at 68% 70%, rgba(240, 218, 205, 0.22), transparent 60%);
+  filter: blur(72px);
+  opacity: 0.65;
+  will-change: left, top;
+}
+
+[data-scroll-motion] {
+  transform: translate3d(0, var(--scroll-shift, 0px), 0);
+  will-change: transform;
+}
+
+@keyframes section-enter {
+  from {
+    opacity: 0.45;
+    transform: translate3d(0, calc(var(--scroll-shift, 0px) + 40px), 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, var(--scroll-shift, 0px), 0);
+  }
+}
+
+@keyframes hero-copy-enter {
+  from {
+    opacity: 0.4;
+    transform: translate3d(0, calc(var(--scroll-shift, 0px) + 34px), 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, var(--scroll-shift, 0px), 0);
+  }
+}
+
+@keyframes hero-image-enter {
+  from {
+    opacity: 0.48;
+    transform: translate3d(0, calc(var(--scroll-shift, 0px) + 40px), 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, var(--scroll-shift, 0px), 0);
+  }
+}
+
+.scroll-reveal--animate {
+  animation: section-enter 820ms ease-out both;
+}
+
+.scroll-reveal--short.scroll-reveal--animate {
+  animation-delay: 160ms;
+}
+
+.scroll-reveal--medium.scroll-reveal--animate {
+  animation-delay: 280ms;
+}
+
+.scroll-reveal--stagger.scroll-reveal--animate {
+  animation: none;
+}
+
+.scroll-reveal--stagger.scroll-reveal--animate > * {
+  animation: section-enter 820ms ease-out both;
+}
+
+.scroll-reveal--stagger.scroll-reveal--animate > :nth-child(2) {
+  animation-delay: 140ms;
+}
+
+.scroll-reveal--stagger.scroll-reveal--animate > :nth-child(3) {
+  animation-delay: 280ms;
+}
+
+.scroll-reveal--stagger.scroll-reveal--animate > :nth-child(4) {
+  animation-delay: 420ms;
+}
+
+.hero-sequence {
+  animation: hero-copy-enter 780ms ease-out both;
+}
+
+.hero-sequence--label {
+  animation-delay: 60ms;
+}
+
+.hero-sequence--title {
+  animation-delay: 180ms;
+}
+
+.hero-sequence--role {
+  animation-delay: 300ms;
+}
+
+.hero-sequence--divider {
+  animation-delay: 400ms;
+}
+
+.hero-sequence--description {
+  animation-delay: 480ms;
+}
+
+.hero-sequence--actions {
+  animation-delay: 600ms;
+}
+
+.hero-sequence--social {
+  animation-delay: 720ms;
+}
+
+.hero-image-enter {
+  animation: hero-image-enter 860ms ease-out 700ms both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 1ms !important;
+  }
+
+  .hero-ambient {
+    opacity: 0.34;
+  }
+}
+
+@media (hover: none), (pointer: coarse) {
+  .hero-ambient {
+    top: 44%;
+    left: 64%;
+    width: min(105vw, 32rem);
+    filter: blur(64px);
+    opacity: 0.38;
+  }
 }
