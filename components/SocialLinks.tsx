@@ -1,8 +1,7 @@
-import { EmailIcon, GitHubIcon, LinkedInIcon } from "@/components/Icons";
+import { EmailIcon, LinkedInIcon } from "@/components/Icons";
 import { socialLinks } from "@/lib/site";
 
 const icons = {
-  github: GitHubIcon,
   linkedin: LinkedInIcon,
   email: EmailIcon,
 };

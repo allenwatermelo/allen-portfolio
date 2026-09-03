@@ -8,11 +8,6 @@ export const navLinks = [
 
 export const socialLinks = [
   {
-    href: "https://github.com/your-username",
-    label: "GitHub",
-    name: "github" as const,
-  },
-  {
     href: "https://www.linkedin.com/in/your-username",
     label: "LinkedIn",
     name: "linkedin" as const,

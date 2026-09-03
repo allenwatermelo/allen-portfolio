@@ -19,14 +19,22 @@ export default function HeroAmbient() {
     let targetY = 50;
     let currentX = 50;
     let currentY = 50;
+    let targetRotation = 0;
+    let currentRotation = 0;
 
     const render = () => {
       currentX += (targetX - currentX) * 0.075;
       currentY += (targetY - currentY) * 0.075;
+      currentRotation += (targetRotation - currentRotation) * 0.055;
       ambient.style.setProperty("--ambient-x", `${currentX.toFixed(2)}%`);
       ambient.style.setProperty("--ambient-y", `${currentY.toFixed(2)}%`);
+      ambient.style.setProperty("--ambient-rotation", `${currentRotation.toFixed(2)}deg`);
 
-      if (Math.abs(targetX - currentX) > 0.05 || Math.abs(targetY - currentY) > 0.05) {
+      if (
+        Math.abs(targetX - currentX) > 0.05 ||
+        Math.abs(targetY - currentY) > 0.05 ||
+        Math.abs(targetRotation - currentRotation) > 0.05
+      ) {
         frameId = window.requestAnimationFrame(render);
       } else {
         frameId = 0;
@@ -41,12 +49,14 @@ export default function HeroAmbient() {
       const rect = hero.getBoundingClientRect();
       targetX = Math.max(0, Math.min(100, ((event.clientX - rect.left) / rect.width) * 100));
       targetY = Math.max(0, Math.min(100, ((event.clientY - rect.top) / rect.height) * 100));
+      targetRotation = Math.max(-10, Math.min(10, (targetX - 50) * 0.11 + (targetY - 50) * 0.07));
       requestRender();
     };
 
     const handlePointerLeave = () => {
       targetX = 50;
       targetY = 50;
+      targetRotation = 0;
       requestRender();
     };
 
@@ -60,6 +70,7 @@ export default function HeroAmbient() {
       frameId = 0;
       ambient.style.removeProperty("--ambient-x");
       ambient.style.removeProperty("--ambient-y");
+      ambient.style.removeProperty("--ambient-rotation");
     };
 
     const startTracking = () => {

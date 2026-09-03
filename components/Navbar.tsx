@@ -1,11 +1,35 @@
 "use client";
 
-import { useState } from "react";
-import { CloseIcon, MenuIcon } from "@/components/Icons";
+import { useEffect, useState } from "react";
+import { CloseIcon, MenuIcon, MoonIcon, SunIcon } from "@/components/Icons";
 import { navLinks } from "@/lib/site";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [isDark, setIsDark] = useState(false);
+
+  useEffect(() => {
+    const savedTheme = window.localStorage.getItem("theme");
+    const shouldUseDarkMode =
+      savedTheme === "dark" ||
+      (savedTheme === null && window.matchMedia("(prefers-color-scheme: dark)").matches);
+
+    document.documentElement.classList.toggle("dark", shouldUseDarkMode);
+
+    const animationFrame = window.requestAnimationFrame(() => setIsDark(shouldUseDarkMode));
+
+    return () => window.cancelAnimationFrame(animationFrame);
+  }, []);
+
+  function toggleTheme() {
+    const nextTheme = !isDark;
+
+    setIsDark(nextTheme);
+    document.documentElement.classList.add("theme-transitioning");
+    document.documentElement.classList.toggle("dark", nextTheme);
+    window.localStorage.setItem("theme", nextTheme ? "dark" : "light");
+    window.setTimeout(() => document.documentElement.classList.remove("theme-transitioning"), 350);
+  }
 
   return (
     <header className="sticky top-0 z-50 border-b border-[var(--line)] bg-[var(--background)]/95 backdrop-blur-sm">
@@ -41,16 +65,27 @@ export default function Navbar() {
           })}
         </ul>
 
-        <button
-          type="button"
-          className="inline-flex rounded-md p-2 text-[var(--ink)] transition-colors duration-200 hover:bg-black/[0.04] md:hidden"
-          aria-expanded={isOpen}
-          aria-controls="mobile-menu"
-          onClick={() => setIsOpen((open) => !open)}
-        >
-          <span className="sr-only">{isOpen ? "Close menu" : "Open menu"}</span>
-          {isOpen ? <CloseIcon className="h-5 w-5" /> : <MenuIcon className="h-5 w-5" />}
-        </button>
+        <div className="flex items-center gap-1">
+          <button
+            type="button"
+            onClick={toggleTheme}
+            className="inline-flex rounded-md p-2 text-[var(--ink)] transition-colors duration-200 hover:bg-[var(--surface-hover)]"
+            aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
+            title={isDark ? "Switch to light mode" : "Switch to dark mode"}
+          >
+            {isDark ? <SunIcon className="h-4.5 w-4.5" /> : <MoonIcon className="h-4.5 w-4.5" />}
+          </button>
+          <button
+            type="button"
+            className="inline-flex rounded-md p-2 text-[var(--ink)] transition-colors duration-200 hover:bg-[var(--surface-hover)] md:hidden"
+            aria-expanded={isOpen}
+            aria-controls="mobile-menu"
+            onClick={() => setIsOpen((open) => !open)}
+          >
+            <span className="sr-only">{isOpen ? "Close menu" : "Open menu"}</span>
+            {isOpen ? <CloseIcon className="h-5 w-5" /> : <MenuIcon className="h-5 w-5" />}
+          </button>
+        </div>
       </nav>
 
       {isOpen ? (

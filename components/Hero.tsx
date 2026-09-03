@@ -30,14 +30,14 @@ export default function Hero() {
         <div className="hero-sequence hero-sequence--actions mt-8 flex flex-wrap items-center gap-3">
           <a
             href="#projects"
-            className="inline-flex items-center justify-center rounded-md bg-[var(--ink)] px-5 py-2.5 text-sm font-medium text-white transition-colors duration-200 hover:bg-[#2c2c2c]"
+            className="inline-flex items-center justify-center rounded-md bg-[var(--ink)] px-5 py-2.5 text-sm font-medium text-[var(--on-ink)] transition-colors duration-200 hover:opacity-85"
           >
             View My Work
           </a>
           <a
             href={resumePath}
             download
-            className="inline-flex items-center justify-center gap-2 rounded-md border border-[var(--line-strong)] bg-white px-5 py-2.5 text-sm font-medium text-[var(--ink)] transition-colors duration-200 hover:border-[var(--ink)] hover:bg-black/[0.02]"
+            className="inline-flex items-center justify-center gap-2 rounded-md border border-[var(--line-strong)] bg-[var(--surface)] px-5 py-2.5 text-sm font-medium text-[var(--ink)] transition-colors duration-200 hover:border-[var(--ink)] hover:bg-[var(--surface-hover)]"
           >
             Download CV
             <DownloadIcon className="h-4 w-4" />
@@ -62,18 +62,20 @@ export default function Hero() {
           }}
           aria-hidden="true"
         />
-        <div
-          className="absolute top-[18%] right-[8%] h-[72%] w-[72%] rounded-full bg-[#ececec]"
-          aria-hidden="true"
-        />
-        <Image
-          src="/images/profile/allen-jean.png"
-          alt="Portrait of Allen Jean Lagangga"
-          width={1545}
-          height={1999}
-          priority
-          className="relative z-10 h-auto w-[86%] max-w-[380px] object-contain"
-        />
+        <div className="relative w-[86%] max-w-[380px]">
+          <div
+            className="absolute top-1/2 left-1/2 h-[72%] w-[72%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[var(--hero-circle)]"
+            aria-hidden="true"
+          />
+          <Image
+            src="/images/profile/allen-jean.png"
+            alt="Portrait of Allen Jean Lagangga"
+            width={1545}
+            height={1999}
+            priority
+            className="relative z-10 h-auto w-full object-contain"
+          />
+        </div>
       </div>
     </section>
   );

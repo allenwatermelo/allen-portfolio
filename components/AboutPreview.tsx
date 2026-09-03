@@ -1,9 +1,10 @@
 import { BriefcaseIcon, GraduationIcon } from "@/components/Icons";
 import ScrollReveal from "@/components/ScrollReveal";
+import ToolsMarquee from "@/components/ToolsMarquee";
 
 export default function AboutPreview() {
   return (
-    <section id="about" className="mx-auto max-w-6xl px-5 pt-6 pb-20 sm:px-8 md:pb-28">
+    <section id="about" className="mx-auto max-w-6xl px-5 pt-6 pb-12 sm:px-8 md:pb-16">
       <div className="grid items-start gap-10 md:grid-cols-2 lg:grid-cols-[0.85fr_1.15fr_1.1fr] lg:gap-12">
         <ScrollReveal>
           <p className="text-[0.7rem] font-medium tracking-[0.22em] text-[var(--muted-soft)] uppercase">
@@ -25,9 +26,9 @@ export default function AboutPreview() {
         </ScrollReveal>
 
         <ScrollReveal delay="medium" className="md:col-span-2 lg:col-span-1">
-          <aside className="rounded-xl border border-black/[0.04] bg-white p-5 shadow-[0_8px_30px_rgba(0,0,0,0.04)]">
+          <aside className="rounded-xl border border-[var(--line)] bg-[var(--surface)] p-5 shadow-[0_8px_30px_rgba(0,0,0,0.04)]">
           <div className="flex items-start gap-3.5">
-            <span className="mt-0.5 inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#f1f1f1] text-[#6b6b6b]">
+            <span className="mt-0.5 inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[var(--icon-surface)] text-[var(--muted)]">
               <GraduationIcon className="h-4 w-4" />
             </span>
             <div>
@@ -44,7 +45,7 @@ export default function AboutPreview() {
           <div className="my-4 h-px bg-[var(--line)]" aria-hidden="true" />
 
           <div className="flex items-start gap-3.5">
-            <span className="mt-0.5 inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#f1f1f1] text-[#6b6b6b]">
+            <span className="mt-0.5 inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[var(--icon-surface)] text-[var(--muted)]">
               <BriefcaseIcon className="h-4 w-4" />
             </span>
             <div>
@@ -57,6 +58,13 @@ export default function AboutPreview() {
           </aside>
         </ScrollReveal>
       </div>
+
+      <ScrollReveal delay="short" className="mt-10 sm:mt-12">
+        <h3 className="text-[0.7rem] font-medium tracking-[0.22em] text-[var(--muted-soft)] uppercase">
+          Tools I Use
+        </h3>
+        <ToolsMarquee />
+      </ScrollReveal>
     </section>
   );
 }

@@ -1,4 +1,5 @@
 import AboutPreview from "@/components/AboutPreview";
+import ContactSection from "@/components/ContactSection";
 import Hero from "@/components/Hero";
 import PlaceholderSection from "@/components/PlaceholderSection";
 
@@ -19,12 +20,7 @@ export default function Home() {
         heading="Where I have worked"
         description="Experience details will be added here. This section exists so the Experience link in the navigation can scroll smoothly."
       />
-      <PlaceholderSection
-        id="contact"
-        label="Contact"
-        heading="Let's connect"
-        description="A contact form and details will go here. This section exists so the Contact link in the navigation can scroll smoothly."
-      />
+      <ContactSection />
     </main>
   );
 }
