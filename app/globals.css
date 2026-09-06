@@ -320,6 +320,72 @@ html.dark .hero-ambient {
   box-shadow: 0 0 0 3px var(--surface-hover);
 }
 
+.project-modal {
+  position: fixed;
+  z-index: 60;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  overflow-y: auto;
+  padding: 1.25rem;
+  background: rgba(0, 0, 0, 0.52);
+  backdrop-filter: blur(3px);
+  transition: opacity 650ms ease-out;
+}
+
+.project-modal__panel {
+  position: relative;
+  width: min(100%, 68rem);
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+  background: var(--background);
+  padding: 3.5rem 1.5rem 1.5rem;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.18);
+  opacity: 0;
+  transform: translateX(68px);
+  transition: opacity 650ms ease-out, transform 650ms ease-out;
+}
+
+.project-modal--opening,
+.project-modal--closing {
+  opacity: 0;
+}
+
+.project-modal--open {
+  opacity: 1;
+}
+
+.project-modal--open .project-modal__panel {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.project-modal__close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  display: grid;
+  width: 2.25rem;
+  height: 2.25rem;
+  place-items: center;
+  border-radius: 9999px;
+  color: var(--muted);
+  font-size: 1.25rem;
+  line-height: 1;
+  transition: background-color 250ms ease-out, color 250ms ease-out;
+}
+
+.project-modal__close:hover {
+  background: var(--surface-hover);
+  color: var(--ink);
+}
+
+@media (min-width: 640px) {
+  .project-modal__panel {
+    padding: 4.25rem 2.25rem 2.25rem;
+  }
+}
+
 html.dark .tools-shelf__logo {
   mix-blend-mode: screen;
 }
