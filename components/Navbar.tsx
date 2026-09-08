@@ -9,16 +9,7 @@ export default function Navbar() {
   const [isDark, setIsDark] = useState(false);
 
   useEffect(() => {
-    const savedTheme = window.localStorage.getItem("theme");
-    const shouldUseDarkMode =
-      savedTheme === "dark" ||
-      (savedTheme === null && window.matchMedia("(prefers-color-scheme: dark)").matches);
-
-    document.documentElement.classList.toggle("dark", shouldUseDarkMode);
-
-    const animationFrame = window.requestAnimationFrame(() => setIsDark(shouldUseDarkMode));
-
-    return () => window.cancelAnimationFrame(animationFrame);
+    document.documentElement.classList.remove("dark");
   }, []);
 
   function toggleTheme() {
@@ -27,7 +18,6 @@ export default function Navbar() {
     setIsDark(nextTheme);
     document.documentElement.classList.add("theme-transitioning");
     document.documentElement.classList.toggle("dark", nextTheme);
-    window.localStorage.setItem("theme", nextTheme ? "dark" : "light");
     window.setTimeout(() => document.documentElement.classList.remove("theme-transitioning"), 350);
   }
 

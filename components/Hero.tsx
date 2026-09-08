@@ -68,7 +68,7 @@ export default function Hero() {
             aria-hidden="true"
           />
           <Image
-            src="/images/profile/allen-jean.png"
+            src="/images/profile/allen-jean-dark-hair.png"
             alt="Portrait of Allen Jean Lagangga"
             width={1545}
             height={1999}
