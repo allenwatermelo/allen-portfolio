@@ -18,10 +18,9 @@ export default function AboutPreview() {
 
         <ScrollReveal delay="short">
           <p className="max-w-xl text-[0.98rem] leading-7 text-[var(--muted)] lg:pt-8">
-            A motivated IT graduate with experience in data management,
-            administrative support, and digital tools. I enjoy organizing
-            information, solving problems, and creating efficient solutions that
-            make an impact.
+            I&apos;m an IT graduate interested in turning data, repetitive processes,
+            and everyday problems into practical digital solutions. My work spans
+            data analysis, workflow automation, administrative support, and web development.
           </p>
         </ScrollReveal>
 
@@ -51,7 +50,7 @@ export default function AboutPreview() {
             <div>
               <h3 className="text-sm font-semibold text-[var(--ink)]">Focus</h3>
               <p className="mt-1 text-sm leading-6 text-[var(--muted)]">
-                Data • Admin Support • Tech • Analysis • Automation
+                Data Analysis • Automation • Administrative Support • Web Development
               </p>
             </div>
           </div>
