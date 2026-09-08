@@ -8,11 +8,6 @@ export const navLinks = [
 
 export const socialLinks = [
   {
-    href: "https://www.linkedin.com/in/your-username",
-    label: "LinkedIn",
-    name: "linkedin" as const,
-  },
-  {
     href: "mailto:hello@example.com",
     label: "Email",
     name: "email" as const,

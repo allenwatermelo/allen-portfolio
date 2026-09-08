@@ -44,7 +44,7 @@ export default function Navbar() {
           AJLagangga
         </a>
 
-        <ul className="hidden items-center gap-8 md:flex">
+        <ul className="hidden items-center gap-8 md:ml-auto md:flex">
           {navLinks.map((link) => {
             const isHome = link.label === "Home";
 
@@ -65,7 +65,7 @@ export default function Navbar() {
           })}
         </ul>
 
-        <div className="flex items-center gap-1">
+        <div className="flex items-center gap-1 md:ml-8">
           <button
             type="button"
             onClick={toggleTheme}
