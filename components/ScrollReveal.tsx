@@ -26,7 +26,11 @@ export default function ScrollReveal({
     if (!element || !("IntersectionObserver" in window)) return;
 
     const observer = new IntersectionObserver(
-      ([entry]) => setIsAnimating(entry.isIntersecting),
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        setIsAnimating(true);
+        observer.disconnect();
+      },
       { threshold: 0.14, rootMargin: "0px 0px -8%" },
     );
 

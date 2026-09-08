@@ -19,17 +19,35 @@ export default function SmoothScroll({ children }: SmoothScrollProps) {
       syncTouch: false,
     });
 
+    const motionElements = Array.from(document.querySelectorAll<HTMLElement>("[data-scroll-motion]"));
+    let layout: { element: HTMLElement; center: number; intensity: number }[] = [];
+
+    const measureLayout = () => {
+      layout = motionElements.map((element) => {
+        // Layout offsets exclude transforms, so parallax cannot feed back into itself.
+        let top = 0;
+        let ancestor: HTMLElement | null = element;
+        while (ancestor) {
+          top += ancestor.offsetTop;
+          ancestor = ancestor.offsetParent as HTMLElement | null;
+        }
+        const baseIntensity = Number(element.dataset.scrollIntensity ?? 14);
+        return {
+          element,
+          center: top + element.offsetHeight / 2,
+          intensity: window.innerWidth < 768 ? baseIntensity * 0.55 : baseIntensity,
+        };
+      });
+    };
+
     const updateScrollMotion = () => {
       if (reducedMotion.matches) return;
 
       const viewportCenter = window.innerHeight / 2;
       const viewportHeight = window.innerHeight;
 
-      document.querySelectorAll<HTMLElement>("[data-scroll-motion]").forEach((element) => {
-        const rect = element.getBoundingClientRect();
-        const baseIntensity = Number(element.dataset.scrollIntensity ?? 14);
-        const intensity = window.innerWidth < 768 ? baseIntensity * 0.55 : baseIntensity;
-        const distance = (rect.top + rect.height / 2 - viewportCenter) / viewportHeight;
+      layout.forEach(({ element, center, intensity }) => {
+        const distance = (center - window.scrollY - viewportCenter) / viewportHeight;
         const shift = Math.max(-intensity, Math.min(intensity, distance * -intensity));
 
         element.style.setProperty("--scroll-shift", `${shift.toFixed(2)}px`);
@@ -37,7 +55,7 @@ export default function SmoothScroll({ children }: SmoothScrollProps) {
     };
 
     const resetScrollMotion = () => {
-      document.querySelectorAll<HTMLElement>("[data-scroll-motion]").forEach((element) => {
+      motionElements.forEach((element) => {
         element.style.setProperty("--scroll-shift", "0px");
       });
     };
@@ -51,15 +69,24 @@ export default function SmoothScroll({ children }: SmoothScrollProps) {
       updateScrollMotion();
     };
 
+    const handleResize = () => {
+      measureLayout();
+      handleMotionPreference();
+    };
+    const resizeObserver = new ResizeObserver(handleResize);
+    resizeObserver.observe(document.body);
+    motionElements.forEach((element) => resizeObserver.observe(element));
+
     lenis.on("scroll", updateScrollMotion);
-    window.addEventListener("resize", updateScrollMotion, { passive: true });
+    window.addEventListener("resize", handleResize, { passive: true });
     reducedMotion.addEventListener("change", handleMotionPreference);
-    handleMotionPreference();
+    handleResize();
 
     return () => {
       lenis.off("scroll", updateScrollMotion);
       lenis.destroy();
-      window.removeEventListener("resize", updateScrollMotion);
+      resizeObserver.disconnect();
+      window.removeEventListener("resize", handleResize);
       reducedMotion.removeEventListener("change", handleMotionPreference);
     };
   }, []);

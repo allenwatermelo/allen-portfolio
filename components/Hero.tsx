@@ -1,5 +1,4 @@
 import Image from "next/image";
-import { DownloadIcon } from "@/components/Icons";
 import HeroAmbient from "@/components/HeroAmbient";
 import SocialLinks from "@/components/SocialLinks";
 import { resumePath } from "@/lib/site";
@@ -36,11 +35,12 @@ export default function Hero() {
           </a>
           <a
             href={resumePath}
-            download
+            target="_blank"
+            rel="noopener noreferrer"
             className="inline-flex items-center justify-center gap-2 rounded-md border border-[var(--line-strong)] bg-[var(--surface)] px-5 py-2.5 text-sm font-medium text-[var(--ink)] transition-colors duration-200 hover:border-[var(--ink)] hover:bg-[var(--surface-hover)]"
           >
-            Download CV
-            <DownloadIcon className="h-4 w-4" />
+            View CV
+            <span aria-hidden="true">↗</span>
           </a>
         </div>
 
