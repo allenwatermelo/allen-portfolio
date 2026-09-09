@@ -17,9 +17,20 @@ export default function SmoothScroll({ children }: SmoothScrollProps) {
       respectReducedMotion: true,
       smoothWheel: true,
       syncTouch: false,
+      prevent: (node) => node.closest('[role="dialog"]') !== null,
     });
 
     const motionElements = Array.from(document.querySelectorAll<HTMLElement>("[data-scroll-motion]"));
+    // Modal overflow locks must also stop Lenis's in-flight scroll animation.
+    const syncScrollLock = () => {
+      const locked = document.documentElement.style.overflow === "hidden" || document.body.style.overflow === "hidden";
+      if (locked && !lenis.isStopped) lenis.stop();
+      else if (!locked && lenis.isStopped) lenis.start();
+    };
+    const scrollLockObserver = new MutationObserver(syncScrollLock);
+    scrollLockObserver.observe(document.documentElement, { attributes: true, attributeFilter: ["style"] });
+    scrollLockObserver.observe(document.body, { attributes: true, attributeFilter: ["style"] });
+    syncScrollLock();
     let layout: { element: HTMLElement; center: number; intensity: number }[] = [];
 
     const measureLayout = () => {
@@ -84,6 +95,7 @@ export default function SmoothScroll({ children }: SmoothScrollProps) {
 
     return () => {
       lenis.off("scroll", updateScrollMotion);
+      scrollLockObserver.disconnect();
       lenis.destroy();
       resizeObserver.disconnect();
       window.removeEventListener("resize", handleResize);

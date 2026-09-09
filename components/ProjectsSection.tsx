@@ -75,7 +75,7 @@ export default function ProjectsSection() {
     }
 
     window.addEventListener("keydown", handleKeyDown);
-    window.requestAnimationFrame(() => dialogRef.current?.focus());
+    window.requestAnimationFrame(() => dialogRef.current?.focus({ preventScroll: true }));
 
     return () => {
       document.body.style.overflow = previousBodyOverflow;
@@ -158,6 +158,7 @@ export default function ProjectsSection() {
       {isModalVisible ? (
         <div
           className={`project-modal project-modal--${modalState}`}
+          data-lenis-prevent
           role="presentation"
           onMouseDown={(event) => {
             if (event.target === event.currentTarget) {
@@ -167,7 +168,7 @@ export default function ProjectsSection() {
         >
           <div
             ref={dialogRef}
-            className={`project-modal__panel${"overview" in project ? " max-h-[calc(100dvh-2.5rem)] overflow-y-auto" : ""}`}
+            className="project-modal__panel"
             role="dialog"
             aria-modal="true"
             aria-labelledby="project-modal-title"
@@ -182,6 +183,7 @@ export default function ProjectsSection() {
               x
             </button>
 
+            <div className="project-modal__content" tabIndex={0} role="region" aria-label="Project content">
             <div className={`grid gap-8 md:gap-10 ${"overview" in project ? "" : "md:grid-cols-[minmax(0,1.2fr)_minmax(15rem,0.8fr)] md:items-center"}`}>
               <div className={`relative overflow-hidden rounded-md border border-[var(--line)] bg-[var(--surface)] ${"overview" in project ? "aspect-[1267/707]" : "aspect-[16/10]"}`}>
                 {project === automationProject ? (
@@ -242,6 +244,7 @@ export default function ProjectsSection() {
                 </div>
               </div>
             ) : null}
+            </div>
           </div>
         </div>
       ) : null}

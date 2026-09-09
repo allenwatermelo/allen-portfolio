@@ -330,7 +330,8 @@ html.dark .hero-ambient {
   inset: 0;
   display: grid;
   place-items: center;
-  overflow-y: auto;
+  overflow: hidden;
+  overscroll-behavior: none;
   padding: 1.25rem;
   background: rgba(0, 0, 0, 0.52);
   backdrop-filter: blur(3px);
@@ -339,15 +340,34 @@ html.dark .hero-ambient {
 
 .project-modal__panel {
   position: relative;
+  display: flex;
+  flex-direction: column;
   width: min(100%, 68rem);
+  max-height: calc(100dvh - 2.5rem);
+  overflow: hidden;
   border: 1px solid var(--line);
   border-radius: 1rem;
   background: var(--background);
-  padding: 3.5rem 1.5rem 1.5rem;
+  padding-top: 3.5rem;
   box-shadow: 0 24px 70px rgba(0, 0, 0, 0.18);
   opacity: 0;
   transform: translateX(68px);
   transition: opacity 650ms ease-out, transform 650ms ease-out;
+}
+
+.project-modal__content {
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  padding: 0 1.5rem 1.5rem;
+}
+
+.project-modal__content::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
 }
 
 .project-modal--opening,
@@ -386,7 +406,11 @@ html.dark .hero-ambient {
 
 @media (min-width: 640px) {
   .project-modal__panel {
-    padding: 4.25rem 2.25rem 2.25rem;
+    padding-top: 4.25rem;
+  }
+
+  .project-modal__content {
+    padding: 0 2.25rem 2.25rem;
   }
 }
 
