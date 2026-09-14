@@ -6,7 +6,7 @@ import ProjectsSection from "@/components/ProjectsSection";
 
 export default function Home() {
   return (
-    <main className="flex-1 bg-[var(--background)]">
+    <main className="portfolio-layout flex-1">
       <Hero />
       <AboutPreview />
       <ProjectsSection />

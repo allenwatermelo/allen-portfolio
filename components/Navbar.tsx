@@ -1,16 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { CloseIcon, MenuIcon, MoonIcon, SunIcon } from "@/components/Icons";
 import { navLinks } from "@/lib/site";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
-  const [isDark, setIsDark] = useState(false);
-
-  useEffect(() => {
-    document.documentElement.classList.remove("dark");
-  }, []);
+  const [isDark, setIsDark] = useState(true);
 
   function toggleTheme() {
     const nextTheme = !isDark;
@@ -59,11 +55,18 @@ export default function Navbar() {
           <button
             type="button"
             onClick={toggleTheme}
-            className="inline-flex rounded-md p-2 text-[var(--ink)] transition-colors duration-200 hover:bg-[var(--surface-hover)]"
-            aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
+            className="theme-switch"
+            role="switch"
+            aria-checked={isDark}
+            aria-label="Dark mode"
             title={isDark ? "Switch to light mode" : "Switch to dark mode"}
           >
-            {isDark ? <SunIcon className="h-4.5 w-4.5" /> : <MoonIcon className="h-4.5 w-4.5" />}
+            <span className="theme-switch__track" aria-hidden="true">
+              <span className="theme-switch__thumb" />
+            </span>
+            <span aria-hidden="true">
+              {isDark ? <MoonIcon className="h-4 w-4" /> : <SunIcon className="h-4 w-4" />}
+            </span>
           </button>
           <button
             type="button"

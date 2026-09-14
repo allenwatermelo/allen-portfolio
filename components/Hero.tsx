@@ -7,13 +7,17 @@ export default function Hero() {
   return (
     <section
       id="home"
-      className="relative isolate mx-auto grid max-w-6xl items-center gap-12 px-5 py-16 sm:px-8 md:grid-cols-[1.05fr_0.95fr] md:gap-8 md:py-20 lg:py-24"
+      className="portfolio-hero relative isolate"
     >
       <HeroAmbient />
 
-      <div className="relative z-10 max-w-xl" data-scroll-motion data-scroll-intensity="10">
+      <div className="portfolio-hero__copy relative z-10" data-scroll-motion data-scroll-intensity="4">
+        <p className="portfolio-availability">
+          <span aria-hidden="true" />
+          Open for work
+        </p>
         <p className="hero-sequence hero-sequence--label text-[0.7rem] font-medium tracking-[0.22em] text-[var(--muted-soft)] uppercase">
-          Hello, I&apos;m
+          Data · Automation · Digital solutions
         </p>
         <h1 className="hero-sequence hero-sequence--title mt-3 text-4xl font-bold tracking-tight text-[var(--ink)] sm:text-5xl lg:text-[3.35rem] lg:leading-[1.1]">
           Allen Jean Lagangga
@@ -50,32 +54,22 @@ export default function Hero() {
       </div>
 
       <div
-        className="scroll-motion-item hero-image-enter relative z-10 mx-auto flex w-full max-w-[420px] items-end justify-center lg:max-w-none lg:justify-end"
+        className="portfolio-portrait hero-image-enter relative z-10"
         data-scroll-motion
-        data-scroll-intensity="24"
+        data-scroll-intensity="4"
       >
-        <div
-          className="absolute top-[12%] right-[-4%] h-[78%] w-[58%] opacity-70"
-          style={{
-            backgroundImage: "radial-gradient(#d4d4d4 1.15px, transparent 1.15px)",
-            backgroundSize: "13px 13px",
-          }}
-          aria-hidden="true"
-        />
-        <div className="relative w-[86%] max-w-[380px]">
-          <div
-            className="absolute top-1/2 left-1/2 h-[72%] w-[72%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[var(--hero-circle)]"
-            aria-hidden="true"
-          />
+        <div className="portfolio-portrait__image">
           <Image
             src="/images/profile/allen-jean-dark-hair.png"
             alt="Portrait of Allen Jean Lagangga"
             width={1545}
             height={1999}
             priority
+            unoptimized
             className="relative z-10 h-auto w-full object-contain"
           />
         </div>
+        <p className="portfolio-portrait__caption">Based in Davao Oriental, Philippines</p>
       </div>
     </section>
   );

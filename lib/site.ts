@@ -12,6 +12,11 @@ export const socialLinks = [
     label: "Email",
     name: "email" as const,
   },
+  {
+    href: "https://www.linkedin.com/in/allen-jean-lagangga-128536426",
+    label: "LinkedIn",
+    name: "linkedin" as const,
+  },
 ] as const;
 
 export const resumePath = "/resume/allen-jean-lagangga-resume.pdf";

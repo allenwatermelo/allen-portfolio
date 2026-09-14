@@ -112,16 +112,17 @@ export default function ProjectsSection() {
         <h2 className="mt-3 text-2xl font-bold tracking-tight text-[var(--ink)]">Selected work</h2>
         <div className="mt-4 h-px w-10 bg-[var(--line-strong)]" aria-hidden="true" />
 
+        <div className="portfolio-project-grid">
         {projects.map((project) => (
         <button
           key={project.image}
           type="button"
           onClick={() => openModal(project)}
-          className="group mt-10 flex w-full max-w-5xl flex-col items-start gap-6 text-left lg:flex-row lg:items-center lg:gap-10"
+          className="portfolio-project group text-left"
           aria-haspopup="dialog"
           aria-label={`View ${project.title} details`}
         >
-          <span className="relative block aspect-[16/10] w-full max-w-[32rem] shrink-0 overflow-hidden rounded-sm border border-[var(--line)] bg-[var(--surface)] lg:w-[30rem]">
+          <span className="portfolio-project__image relative block aspect-[16/10] w-full overflow-hidden border-b border-[var(--line)] bg-[var(--surface)]">
             {project === automationProject ? (
               <EmailAutomationGraphic className="transition-transform duration-[400ms] ease-out group-hover:scale-[1.025]" />
             ) : (
@@ -134,7 +135,7 @@ export default function ProjectsSection() {
             />
             )}
           </span>
-          <span className="min-w-0 flex-1">
+          <span className="portfolio-project__copy block min-w-0">
             <span className="block text-[0.65rem] font-medium tracking-[0.2em] text-[var(--muted-soft)] uppercase">
               {project.category}
             </span>
@@ -149,10 +150,11 @@ export default function ProjectsSection() {
                 <span className="mt-5 block text-[0.96rem] leading-7 text-[var(--muted)]">{project.description}</span>
                 <span className="mt-5 block text-xs leading-5 text-[var(--muted-soft)]">{project.stack.join(" · ")}</span>
               </>
-            ) : null}
+            ) : <span className="mt-5 block text-[0.96rem] leading-7 text-[var(--muted)]">An interactive view of retail performance, customer behavior, and the insights behind the numbers.</span>}
           </span>
         </button>
         ))}
+        </div>
       </ScrollReveal>
 
       {isModalVisible ? (

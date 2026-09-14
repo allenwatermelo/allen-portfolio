@@ -5,7 +5,7 @@ import ToolsMarquee from "@/components/ToolsMarquee";
 export default function AboutPreview() {
   return (
     <section id="about" className="mx-auto max-w-6xl px-5 pt-6 pb-12 sm:px-8 md:pb-16">
-      <div className="grid items-start gap-10 md:grid-cols-2 lg:grid-cols-[0.85fr_1.15fr_1.1fr] lg:gap-12">
+      <div className="portfolio-about-grid">
         <ScrollReveal>
           <p className="text-[0.7rem] font-medium tracking-[0.22em] text-[var(--muted-soft)] uppercase">
             About me
@@ -38,6 +38,7 @@ export default function AboutPreview() {
               <p className="text-sm text-[var(--muted-soft)]">
                 Davao Oriental State University
               </p>
+              <p className="portfolio-education-honor">Cum Laude</p>
             </div>
           </div>
 
