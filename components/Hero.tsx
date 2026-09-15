@@ -23,11 +23,11 @@ export default function Hero() {
           Allen Jean Lagangga
         </h1>
         <p className="hero-sequence hero-sequence--role mt-3 text-lg text-[var(--muted)]">
-          IT Graduate &amp; Data Enthusiast
+          Junior Data Analyst | Administrative Support | Automation | Graphic Design
         </p>
         <div className="hero-sequence hero-sequence--divider mt-5 h-px w-10 bg-[var(--line-strong)]" aria-hidden="true" />
         <p className="hero-sequence hero-sequence--description mt-5 max-w-md text-[0.98rem] leading-7 text-[var(--muted)]">
-          I turn data, details, and ideas into organized, practical solutions.
+          I organize data, streamline repetitive tasks, and create practical digital solutions, from data analysis and administrative workflows to automation and visual design.
         </p>
 
         <div className="hero-sequence hero-sequence--actions mt-8 flex flex-wrap items-center gap-3">
