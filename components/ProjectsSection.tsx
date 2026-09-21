@@ -5,7 +5,18 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import ScrollReveal from "@/components/ScrollReveal";
 import EmailAutomationGraphic from "@/components/EmailAutomationGraphic";
 
+const projectCategories = [
+  "Content & Design",
+  "Automation",
+  "Data & Analytics",
+  "Web Development",
+  "Admin Support",
+] as const;
+
+type ProjectCategory = (typeof projectCategories)[number];
+
 const retailProject = {
+  filterCategory: "Data & Analytics" satisfies ProjectCategory,
   category: "Data Analysis",
   title: "Retail Sales & Customer Analytics Dashboard",
   image: "/images/projects/PROJECT_001.png",
@@ -14,6 +25,7 @@ const retailProject = {
 };
 
 const automationProject = {
+  filterCategory: "Automation" satisfies ProjectCategory,
   category: "Automation Project",
   title: "AI-Powered Email Management Automation",
   image: "/images/projects/PROJECT_002.png",
@@ -36,6 +48,10 @@ const projects = [retailProject, automationProject];
 type ModalState = "closed" | "opening" | "open" | "closing";
 
 export default function ProjectsSection() {
+  const [selectedCategory, setSelectedCategory] = useState<ProjectCategory | null>(null);
+  const visibleProjects = selectedCategory
+    ? projects.filter((project) => project.filterCategory === selectedCategory)
+    : projects;
   const [project, setProject] = useState<(typeof projects)[number]>(retailProject);
   const [modalState, setModalState] = useState<ModalState>("closed");
   const dialogRef = useRef<HTMLDivElement>(null);
@@ -112,8 +128,41 @@ export default function ProjectsSection() {
         <h2 className="mt-3 text-2xl font-bold tracking-tight text-[var(--ink)]">Selected work</h2>
         <div className="mt-4 h-px w-10 bg-[var(--line-strong)]" aria-hidden="true" />
 
-        <div className="portfolio-project-grid">
-        {projects.map((project) => (
+        <div className="portfolio-project-filters" role="group" aria-label="Filter projects by category">
+          <button
+            type="button"
+            className="portfolio-project-filter"
+            aria-pressed={selectedCategory === null}
+            aria-controls="project-results"
+            onClick={() => setSelectedCategory(null)}
+          >
+            All
+          </button>
+          {projectCategories.map((category) => (
+            <button
+              key={category}
+              type="button"
+              className="portfolio-project-filter"
+              aria-pressed={selectedCategory === category}
+              aria-controls="project-results"
+              onClick={() => setSelectedCategory((current) => current === category ? null : category)}
+            >
+              {category}
+            </button>
+          ))}
+        </div>
+        <p className="sr-only" role="status">
+          {visibleProjects.length} {visibleProjects.length === 1 ? "project" : "projects"} shown
+          {selectedCategory ? ` in ${selectedCategory}.` : " across all categories."}
+        </p>
+        <div id="project-results" className="portfolio-project-grid">
+        {visibleProjects.length === 0 && (
+          <div className="portfolio-project-empty">
+            <p>No projects in {selectedCategory} yet.</p>
+            <button type="button" onClick={() => setSelectedCategory(null)}>View all projects <span aria-hidden="true">↗</span></button>
+          </div>
+        )}
+        {visibleProjects.map((project) => (
         <button
           key={project.image}
           type="button"

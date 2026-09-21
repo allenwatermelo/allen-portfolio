@@ -1,12 +1,56 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CloseIcon, MenuIcon, MoonIcon, SunIcon } from "@/components/Icons";
 import { navLinks } from "@/lib/site";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isDark, setIsDark] = useState(true);
+  const [activeHref, setActiveHref] = useState<string>("#home");
+
+  useEffect(() => {
+    const sections = navLinks.map((link) => ({
+      href: link.href,
+      element: document.getElementById(link.href.slice(1)),
+    }));
+    let frame = 0;
+
+    function updateActiveSection() {
+      frame = 0;
+      const marker = Math.max(96, window.innerHeight * 0.25);
+      let current: string = navLinks[0].href;
+
+      for (const section of sections) {
+        if (section.element && section.element.getBoundingClientRect().top <= marker) {
+          current = section.href;
+        }
+      }
+
+      // The last section may be too short to reach the viewport marker.
+      if (window.scrollY > 0 && window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 2) {
+        current = navLinks[navLinks.length - 1].href;
+      }
+      setActiveHref(current);
+    }
+
+    function scheduleUpdate() {
+      if (!frame) frame = window.requestAnimationFrame(updateActiveSection);
+    }
+
+    const observer = new ResizeObserver(scheduleUpdate);
+    observer.observe(document.body);
+    window.addEventListener("scroll", scheduleUpdate, { passive: true });
+    window.addEventListener("resize", scheduleUpdate);
+    scheduleUpdate();
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("scroll", scheduleUpdate);
+      window.removeEventListener("resize", scheduleUpdate);
+      window.cancelAnimationFrame(frame);
+    };
+  }, []);
 
   function toggleTheme() {
     const nextTheme = !isDark;
@@ -32,14 +76,15 @@ export default function Navbar() {
 
         <ul className="hidden items-center gap-8 md:ml-auto md:flex">
           {navLinks.map((link) => {
-            const isHome = link.label === "Home";
+            const isActive = link.href === activeHref;
 
             return (
               <li key={link.href}>
                 <a
                   href={link.href}
+                  aria-current={isActive ? "location" : undefined}
                   className={`relative pb-1 text-sm transition-colors duration-200 ${
-                    isHome
+                    isActive
                       ? "font-medium text-[var(--ink)] after:absolute after:bottom-0 after:left-1/2 after:h-px after:w-5 after:-translate-x-1/2 after:bg-[var(--ink)]"
                       : "text-[var(--muted)] hover:text-[var(--ink)]"
                   }`}
@@ -87,16 +132,17 @@ export default function Navbar() {
           className="space-y-1 border-t border-[var(--line)] px-5 py-3 md:hidden"
         >
           {navLinks.map((link) => {
-            const isHome = link.label === "Home";
+            const isActive = link.href === activeHref;
 
             return (
               <li key={link.href}>
                 <a
                   href={link.href}
+                  aria-current={isActive ? "location" : undefined}
                   onClick={() => setIsOpen(false)}
                   className={`block rounded-md px-2 py-2 text-sm transition-colors duration-200 ${
-                    isHome
-                      ? "font-medium text-[var(--ink)]"
+                    isActive
+                      ? "bg-[var(--surface-hover)] font-medium text-[var(--ink)] underline underline-offset-4"
                       : "text-[var(--muted)] hover:text-[var(--ink)]"
                   }`}
                 >
