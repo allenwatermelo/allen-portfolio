@@ -139,13 +139,13 @@ html.dark .portfolio-education-honor { border-color: #d5ad37; background: #332b1
 .portrait-player-status { position: absolute; top: 26px; left: 20px; display: flex; align-items: center; gap: 7px; margin: 0; color: #000; background: #fff; font: 400 12px/16px Arial, sans-serif; text-transform: uppercase; white-space: nowrap; text-size-adjust: none; -webkit-text-size-adjust: none; animation: portrait-word-in 600ms 800ms both; }
 .portrait-player-status__text { display: block; font: 400 12px/16px Arial, sans-serif; letter-spacing: 0; white-space: nowrap; }
 .portrait-side-tag { position: absolute; width: 25%; animation: portrait-word-in 700ms 1100ms both; }
-.portrait-side-tag--hire { top: 34%; left: 2.5%; }
-.portrait-side-tag--build { top: 45%; right: 2.5%; animation-delay: 1350ms; }
+.portrait-side-tag--hire { top: 34%; left: clamp(12px, calc(27% - 100px), 12%); }
+.portrait-side-tag--build { top: 45%; right: 6%; animation-delay: 1350ms; }
 .portrait-side-tag button { display: flex; align-items: center; justify-content: center; gap: 7px; width: 100%; min-height: 44px; padding: 11px 6px; border: 2px solid #91ac91; border-radius: 0; background: #f0f6ef; box-shadow: 3px 3px 0 #91ac91, inset 2px 2px 0 white; color: #344e3b; text-align: left; font-size: clamp(9px, 2.15cqw, 14px); font-weight: 600; cursor: pointer; transition: transform 180ms ease, box-shadow 180ms ease; animation: portrait-greeting-float 4800ms 2100ms 3 steps(5, end); }
 .portrait-side-tag--build button { border-color: #c4a566; background: #fcf6e6; box-shadow: 3px 3px 0 #c4a566, inset 2px 2px 0 white; color: #685732; animation-delay: 2600ms; }
 .portrait-side-tag__detail { display: block; margin-top: 3px; font-size: .68em; font-weight: 400; opacity: .8; }
 .portrait-side-tag__icon { font-size: 1.3em; font-weight: 400; }
-.portrait-side-tag button:hover { animation-play-state: paused; filter: brightness(.97); }
+.portrait-side-tag button:hover { filter: brightness(.97); }
 .portrait-side-tag button:active { translate: 0 2px; box-shadow: none; }
 .portrait-side-tag button:focus-visible { outline: 2px solid #526c58; outline-offset: 4px; }
 .portrait-viewer__greeting { position: absolute; bottom: 6%; inset-inline: 16px; display: flex; justify-content: center; pointer-events: none; }
@@ -196,6 +196,13 @@ html.dark .portfolio-education-honor { border-color: #d5ad37; background: #332b1
   box-shadow: -2px 0 0 #000, 2px 0 0 #000, 0 -2px 0 #000, 0 2px 0 #000, 2px 4px 0 #000, 4px 2px 0 #000;
 }
 .portrait-greeting::after { display: none; }
+.portrait-side-tag { width: auto; max-width: 29%; }
+.portrait-side-tag button { width: auto; min-height: 44px; gap: 6px; padding: 7px 10px; border: 1px solid #000; box-shadow: 2px 2px 0 #000; font-size: clamp(9px, 1.5cqw, 11px); font-weight: 600; animation: portrait-greeting-float 3200ms ease-in-out infinite; }
+.portrait-side-tag--build button { animation-delay: -1600ms; }
+@media (prefers-reduced-motion: reduce) {
+  .portrait-side-tag button { animation: none; }
+}
+.portrait-side-tag__detail { margin-top: 2px; }
 .portrait-greeting__spark { color: #000; }
 .portrait-player-status__dot { flex: 0 0 6px; width: 6px; height: 6px; background: #4caf50; box-shadow: inset 1px 1px 0 #a9e6a5, -1px 0 0 #236b29, 1px 0 0 #236b29, 0 -1px 0 #236b29, 0 1px 0 #236b29; }
 .portrait-intro__loading { background: #000; border: 1px solid #fff; }
