@@ -1,4 +1,4 @@
-import Image from "next/image";
+import ProfilePhoto from "@/components/ProfilePhoto";
 import HeroAmbient from "@/components/HeroAmbient";
 import SocialLinks from "@/components/SocialLinks";
 import { resumePath } from "@/lib/site";
@@ -58,17 +58,7 @@ export default function Hero() {
         data-scroll-motion
         data-scroll-intensity="4"
       >
-        <div className="portfolio-portrait__image">
-          <Image
-            src="/images/profile/allen-jean-dark-hair.png"
-            alt="Portrait of Allen Jean Lagangga"
-            width={1545}
-            height={1999}
-            priority
-            unoptimized
-            className="relative z-10 h-auto w-full object-contain"
-          />
-        </div>
+        <ProfilePhoto />
         <p className="portfolio-portrait__caption">Based in Davao Oriental, Philippines</p>
       </div>
     </section>
