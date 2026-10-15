@@ -43,7 +43,31 @@ const automationProject = {
   ],
 };
 
-const projects = [retailProject, automationProject];
+const pubmatProjects = [
+  {
+    filterCategory: "Content & Design" satisfies ProjectCategory,
+    category: "Content & Design",
+    title: "PubMat1",
+    image: "/images/projects/PubMat1.jpg",
+    description: "An informational poster outlining the five steps job fair applicants should follow, from registration and job shopping to verification, interviews, and evaluation.",
+  },
+  {
+    filterCategory: "Content & Design" satisfies ProjectCategory,
+    category: "Content & Design",
+    title: "PubMat2",
+    image: "/images/projects/PubMat2.jpg",
+    description: "A recruitment graphic highlighting the locations where Savemore Market is seeking branches and applicants.",
+  },
+  {
+    filterCategory: "Content & Design" satisfies ProjectCategory,
+    category: "Content & Design",
+    title: "PubMat3",
+    image: "/images/projects/PubMat3.jpg",
+    description: "A hiring announcement promoting upcoming job fair dates, times, and venues for Savemore Market.",
+  },
+];
+
+const projects = [retailProject, automationProject, ...pubmatProjects];
 
 type ModalState = "closed" | "opening" | "open" | "closing";
 
@@ -52,12 +76,31 @@ export default function ProjectsSection() {
   const visibleProjects = selectedCategory
     ? projects.filter((project) => project.filterCategory === selectedCategory)
     : projects;
+  const displayedProjects = visibleProjects.slice(0, 4);
+  const hasMoreProjects = visibleProjects.length > 4;
+  const galleryTitle = selectedCategory ?? "All Projects";
   const [project, setProject] = useState<(typeof projects)[number]>(retailProject);
   const [modalState, setModalState] = useState<ModalState>("closed");
+  const [isGalleryOpen, setIsGalleryOpen] = useState(false);
   const dialogRef = useRef<HTMLDivElement>(null);
+  const galleryDialogRef = useRef<HTMLDivElement>(null);
   const closeTimerRef = useRef<number | null>(null);
+  const selectedProjectRef = useRef(project);
+
+  const moveProject = useCallback((direction: -1 | 1) => {
+    const currentIndex = projects.findIndex((item) => item.image === selectedProjectRef.current.image);
+    if (currentIndex < 0) return;
+
+    const nextIndex = (currentIndex + direction + projects.length) % projects.length;
+    const nextProject = projects[nextIndex];
+    if (nextProject) {
+      selectedProjectRef.current = nextProject;
+      setProject(nextProject);
+    }
+  }, []);
 
   const isModalVisible = modalState !== "closed";
+  const hasOverlayOpen = isModalVisible || isGalleryOpen;
 
   const closeModal = useCallback(() => {
     setModalState((currentState) => {
@@ -75,7 +118,7 @@ export default function ProjectsSection() {
   }, []);
 
   useEffect(() => {
-    if (!isModalVisible) {
+    if (!hasOverlayOpen) {
       return;
     }
 
@@ -86,19 +129,29 @@ export default function ProjectsSection() {
 
     function handleKeyDown(event: KeyboardEvent) {
       if (event.key === "Escape") {
-        closeModal();
+        if (isGalleryOpen) setIsGalleryOpen(false);
+        else closeModal();
+      } else if (isModalVisible && event.key === "ArrowLeft") {
+        event.preventDefault();
+        moveProject(-1);
+      } else if (isModalVisible && event.key === "ArrowRight") {
+        event.preventDefault();
+        moveProject(1);
       }
     }
 
     window.addEventListener("keydown", handleKeyDown);
-    window.requestAnimationFrame(() => dialogRef.current?.focus({ preventScroll: true }));
+    window.requestAnimationFrame(() => {
+      if (isGalleryOpen) galleryDialogRef.current?.focus({ preventScroll: true });
+      else dialogRef.current?.focus({ preventScroll: true });
+    });
 
     return () => {
       document.body.style.overflow = previousBodyOverflow;
       document.documentElement.style.overflow = previousHtmlOverflow;
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [closeModal, isModalVisible]);
+  }, [closeModal, hasOverlayOpen, isGalleryOpen, isModalVisible, moveProject]);
 
   useEffect(() => {
     return () => {
@@ -114,6 +167,7 @@ export default function ProjectsSection() {
       closeTimerRef.current = null;
     }
 
+    selectedProjectRef.current = selectedProject;
     setProject(selectedProject);
     setModalState("opening");
     window.requestAnimationFrame(() => setModalState("open"));
@@ -155,56 +209,69 @@ export default function ProjectsSection() {
           {visibleProjects.length} {visibleProjects.length === 1 ? "project" : "projects"} shown
           {selectedCategory ? ` in ${selectedCategory}.` : " across all categories."}
         </p>
-        <div id="project-results" className="portfolio-project-grid">
+        <div id="project-results" className={`portfolio-project-grid ${selectedCategory === null ? "portfolio-project-grid--all" : ""}`}>
         {visibleProjects.length === 0 && (
           <div className="portfolio-project-empty">
             <p>No projects in {selectedCategory} yet.</p>
             <button type="button" onClick={() => setSelectedCategory(null)}>View all projects <span aria-hidden="true">↗</span></button>
           </div>
         )}
-        {visibleProjects.map((project) => (
+        {displayedProjects.map((project) => (
         <button
           key={project.image}
           type="button"
           onClick={() => openModal(project)}
-          className="portfolio-project group text-left"
+          className="portfolio-project portfolio-project--thumbnail group text-left"
           aria-haspopup="dialog"
-          aria-label={`View ${project.title} details`}
+          aria-label={project.filterCategory === "Content & Design" ? `View ${project.title} artwork` : `View ${project.title} details`}
         >
-          <span className="portfolio-project__image relative block aspect-[16/10] w-full overflow-hidden border-b border-[var(--line)] bg-[var(--surface)]">
+          <span className="portfolio-project__image portfolio-project__image--thumbnail relative block w-full overflow-hidden border-b border-[var(--line)] bg-[var(--surface)] aspect-square">
             {project === automationProject ? (
               <EmailAutomationGraphic className="transition-transform duration-[400ms] ease-out group-hover:scale-[1.025]" />
             ) : (
             <Image
               src={project.image}
-              alt={project === retailProject ? "Retail sales and customer analytics dashboard preview" : "AI email management automation with n8n, Gemini, Gmail, and Google Sheets"}
+              alt={project === retailProject ? "Retail sales and customer analytics dashboard preview" : project.title}
               fill
               sizes="(max-width: 639px) calc(100vw - 2.5rem), (max-width: 1023px) 512px, 480px"
               className="object-contain transition-transform duration-[400ms] ease-out group-hover:scale-[1.025]"
             />
             )}
           </span>
-          <span className="portfolio-project__copy block min-w-0">
-            <span className="block text-[0.65rem] font-medium tracking-[0.2em] text-[var(--muted-soft)] uppercase">
-              {project.category}
-            </span>
-            <span className="mt-2 flex items-start justify-between gap-5 text-base font-semibold leading-6 text-[var(--ink)] sm:text-lg">
-              <span className="transition-opacity duration-[400ms] ease-out group-hover:opacity-65">{project.title}</span>
-              <span className="shrink-0 text-lg font-normal text-[var(--muted)] transition-transform duration-[400ms] ease-out group-hover:translate-x-1 group-hover:text-[var(--ink)]" aria-hidden="true">
-                ↗
-              </span>
-            </span>
-            {"description" in project ? (
-              <>
-                <span className="mt-5 block text-[0.96rem] leading-7 text-[var(--muted)]">{project.description}</span>
-                <span className="mt-5 block text-xs leading-5 text-[var(--muted-soft)]">{project.stack.join(" · ")}</span>
-              </>
-            ) : <span className="mt-5 block text-[0.96rem] leading-7 text-[var(--muted)]">An interactive view of retail performance, customer behavior, and the insights behind the numbers.</span>}
-          </span>
         </button>
         ))}
         </div>
+        {hasMoreProjects ? (
+          <button type="button" className="portfolio-project-view-all" onClick={() => setIsGalleryOpen(true)} aria-haspopup="dialog">
+            View all <span aria-hidden="true">({visibleProjects.length})</span><span aria-hidden="true">↗</span>
+          </button>
+        ) : null}
       </ScrollReveal>
+
+      {isGalleryOpen ? (
+        <div className="project-gallery-overlay" role="presentation" onMouseDown={(event) => {
+          if (event.target === event.currentTarget) setIsGalleryOpen(false);
+        }}>
+          <div ref={galleryDialogRef} className="project-gallery-panel" role="dialog" aria-modal="true" aria-labelledby="project-gallery-title" tabIndex={-1}>
+            <button type="button" className="project-gallery-close" onClick={() => setIsGalleryOpen(false)} aria-label="Close project gallery">×</button>
+            <p className="project-gallery-eyebrow">Projects</p>
+            <h2 id="project-gallery-title">{galleryTitle}</h2>
+            <div className="project-gallery-grid">
+              {visibleProjects.map((item) => (
+                <button key={item.image} type="button" className="project-gallery-item" onClick={() => {
+                  setIsGalleryOpen(false);
+                  openModal(item);
+                }} aria-label={`Open ${item.title}`}>
+                  <span className="project-gallery-thumbnail">
+                    {item === automationProject ? <EmailAutomationGraphic /> : <Image src={item.image} alt="" fill sizes="(max-width: 639px) 42vw, (max-width: 1023px) 28vw, 16rem" className="object-contain" />}
+                  </span>
+                  <span className="project-gallery-item-title">{item.title}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      ) : null}
 
       {isModalVisible ? (
         <div
@@ -217,26 +284,34 @@ export default function ProjectsSection() {
             }
           }}
         >
+          <button type="button" className={`project-modal__nav project-modal__nav--previous ${project.filterCategory === "Content & Design" ? "project-modal__nav--artwork" : "project-modal__nav--details"}`} aria-label="Previous project" onClick={() => moveProject(-1)}>‹</button>
           <div
             ref={dialogRef}
-            className="project-modal__panel"
+            className={`project-modal__panel ${project.filterCategory === "Content & Design" ? "project-modal__panel--artwork" : ""}`}
             role="dialog"
             aria-modal="true"
-            aria-labelledby="project-modal-title"
+            aria-labelledby={project.filterCategory === "Content & Design" ? undefined : "project-modal-title"}
+            aria-label={project.filterCategory === "Content & Design" ? `${project.title} artwork` : undefined}
             tabIndex={-1}
           >
             <button
               type="button"
               onClick={closeModal}
-              className="project-modal__close"
+              className={`project-modal__close ${project.filterCategory === "Content & Design" ? "project-modal__close--artwork" : ""}`}
               aria-label="Close project details"
             >
               x
             </button>
 
-            <div className="project-modal__content" tabIndex={0} role="region" aria-label="Project content">
+            <div className={`project-modal__content ${project.filterCategory === "Content & Design" ? "project-modal__content--artwork" : ""}`} tabIndex={0} role="region" aria-label={project.filterCategory === "Content & Design" ? "Artwork preview" : "Project content"}>
+            {project.filterCategory === "Content & Design" ? (
+              <div key={project.image} className="project-modal__artwork-frame">
+                <Image src={project.image} alt={project.title} fill sizes="(max-width: 639px) calc(100vw - 8rem), 48rem" className="object-contain" priority />
+              </div>
+            ) : (
+            <>
             <div className={`grid gap-8 md:gap-10 ${"overview" in project ? "" : "md:grid-cols-[minmax(0,1.2fr)_minmax(15rem,0.8fr)] md:items-center"}`}>
-              <div className={`relative overflow-hidden rounded-md border border-[var(--line)] bg-[var(--surface)] ${"overview" in project ? "aspect-[1267/707]" : "aspect-[16/10]"}`}>
+              <div className={`relative overflow-hidden rounded-md border border-[var(--line)] bg-[var(--surface)] ${"overview" in project ? "aspect-[1267/707]" : project.filterCategory === "Content & Design" ? "aspect-[4/5]" : "aspect-[16/10]"}`}>
                 {project === automationProject ? (
                   <EmailAutomationGraphic />
                 ) : (
@@ -266,19 +341,19 @@ export default function ProjectsSection() {
                 ) : (
                   <>
                 <p className="mt-5 text-[0.96rem] leading-7 text-[var(--muted)]">
-                  Analyzed retail sales and customer data to identify trends, customer behavior, and key revenue drivers. Built an interactive dashboard with KPIs, visualizations, monthly summaries, and key insights to make the data easier to understand.
+                {"description" in project ? project.description : "Analyzed retail sales and customer data to identify trends, customer behavior, and key revenue drivers. Built an interactive dashboard with KPIs, visualizations, monthly summaries, and key insights to make the data easier to understand."}
                 </p>
-                <p className="mt-5 text-xs leading-5 text-[var(--muted-soft)]">
+                {project === retailProject ? <p className="mt-5 text-xs leading-5 text-[var(--muted-soft)]">
                   Google Sheets <span aria-hidden="true">•</span> Data Analysis <span aria-hidden="true">•</span> Data Visualization
-                </p>
-                <a
+                </p> : null}
+                {project === retailProject ? <a
                   href={project.sheetUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="mt-7 inline-flex items-center gap-3 rounded-md bg-[var(--ink)] px-5 py-2.5 text-sm font-medium text-[var(--on-ink)] transition-transform duration-300 ease-out hover:-translate-y-0.5"
                 >
                   View in Google Sheet <span aria-hidden="true">-&gt;</span>
-                </a>
+                </a> : null}
                   </>
                 )}
               </div>
@@ -295,8 +370,11 @@ export default function ProjectsSection() {
                 </div>
               </div>
             ) : null}
+            </>
+            )}
             </div>
           </div>
+          <button type="button" className={`project-modal__nav project-modal__nav--next ${project.filterCategory === "Content & Design" ? "project-modal__nav--artwork" : "project-modal__nav--details"}`} aria-label="Next project" onClick={() => moveProject(1)}>›</button>
         </div>
       ) : null}
     </section>
