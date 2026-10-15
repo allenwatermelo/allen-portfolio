@@ -86,18 +86,21 @@ export default function ProjectsSection() {
   const galleryTitle = selectedCategory ?? "All Projects";
   const [project, setProject] = useState<Project>(retailProject);
   const [modalState, setModalState] = useState<ModalState>("closed");
+  const [canNavigateProjects, setCanNavigateProjects] = useState(true);
   const [isGalleryOpen, setIsGalleryOpen] = useState(false);
   const dialogRef = useRef<HTMLDivElement>(null);
   const galleryDialogRef = useRef<HTMLDivElement>(null);
   const closeTimerRef = useRef<number | null>(null);
   const selectedProjectRef = useRef(project);
+  const navigationProjectsRef = useRef<Project[]>(projects);
 
   const moveProject = useCallback((direction: -1 | 1) => {
-    const currentIndex = projects.findIndex((item) => item.image === selectedProjectRef.current.image);
+    const navigationProjects = navigationProjectsRef.current;
+    const currentIndex = navigationProjects.findIndex((item) => item.image === selectedProjectRef.current.image);
     if (currentIndex < 0) return;
 
-    const nextIndex = (currentIndex + direction + projects.length) % projects.length;
-    const nextProject = projects[nextIndex];
+    const nextIndex = (currentIndex + direction + navigationProjects.length) % navigationProjects.length;
+    const nextProject = navigationProjects[nextIndex];
     if (nextProject) {
       selectedProjectRef.current = nextProject;
       setProject(nextProject);
@@ -136,10 +139,10 @@ export default function ProjectsSection() {
       if (event.key === "Escape") {
         if (isGalleryOpen) setIsGalleryOpen(false);
         else closeModal();
-      } else if (isModalVisible && event.key === "ArrowLeft") {
+      } else if (isModalVisible && canNavigateProjects && event.key === "ArrowLeft") {
         event.preventDefault();
         moveProject(-1);
-      } else if (isModalVisible && event.key === "ArrowRight") {
+      } else if (isModalVisible && canNavigateProjects && event.key === "ArrowRight") {
         event.preventDefault();
         moveProject(1);
       }
@@ -156,7 +159,7 @@ export default function ProjectsSection() {
       document.documentElement.style.overflow = previousHtmlOverflow;
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [closeModal, hasOverlayOpen, isGalleryOpen, isModalVisible, moveProject]);
+  }, [canNavigateProjects, closeModal, hasOverlayOpen, isGalleryOpen, isModalVisible, moveProject]);
 
   useEffect(() => {
     return () => {
@@ -166,13 +169,15 @@ export default function ProjectsSection() {
     };
   }, []);
 
-  function openModal(selectedProject: Project) {
+  function openModal(selectedProject: Project, navigationProjects: Project[]) {
     if (closeTimerRef.current !== null) {
       window.clearTimeout(closeTimerRef.current);
       closeTimerRef.current = null;
     }
 
     selectedProjectRef.current = selectedProject;
+    navigationProjectsRef.current = navigationProjects;
+    setCanNavigateProjects(navigationProjects.length > 1);
     setProject(selectedProject);
     setModalState("opening");
     window.requestAnimationFrame(() => setModalState("open"));
@@ -225,7 +230,7 @@ export default function ProjectsSection() {
         <button
           key={project.image}
           type="button"
-          onClick={() => openModal(project)}
+          onClick={() => openModal(project, visibleProjects)}
           className="portfolio-project portfolio-project--thumbnail group text-left"
           aria-haspopup="dialog"
           aria-label={project.filterCategory === "Content & Design" ? `View ${project.title} artwork` : `View ${project.title} details`}
@@ -265,7 +270,7 @@ export default function ProjectsSection() {
               {visibleProjects.map((item) => (
                 <button key={item.image} type="button" className="project-gallery-item" onClick={() => {
                   setIsGalleryOpen(false);
-                  openModal(item);
+                  openModal(item, visibleProjects);
                 }} aria-label={`Open ${item.title}`}>
                   <span className="project-gallery-thumbnail">
                     {item === automationProject ? <EmailAutomationGraphic /> : <Image src={item.image} alt="" fill sizes="(max-width: 639px) 42vw, (max-width: 1023px) 28vw, 16rem" className="object-contain" />}
@@ -289,7 +294,7 @@ export default function ProjectsSection() {
             }
           }}
         >
-          <button type="button" className={`project-modal__nav project-modal__nav--previous ${project.filterCategory === "Content & Design" ? "project-modal__nav--artwork" : "project-modal__nav--details"}`} aria-label="Previous project" onClick={() => moveProject(-1)}>‹</button>
+          {canNavigateProjects ? <button type="button" className={`project-modal__nav project-modal__nav--previous ${project.filterCategory === "Content & Design" ? "project-modal__nav--artwork" : "project-modal__nav--details"}`} aria-label="Previous project" onClick={() => moveProject(-1)}>‹</button> : null}
           <div
             ref={dialogRef}
             className={`project-modal__panel ${project.filterCategory === "Content & Design" ? "project-modal__panel--artwork" : ""}`}
@@ -379,7 +384,7 @@ export default function ProjectsSection() {
             )}
             </div>
           </div>
-          <button type="button" className={`project-modal__nav project-modal__nav--next ${project.filterCategory === "Content & Design" ? "project-modal__nav--artwork" : "project-modal__nav--details"}`} aria-label="Next project" onClick={() => moveProject(1)}>›</button>
+          {canNavigateProjects ? <button type="button" className={`project-modal__nav project-modal__nav--next ${project.filterCategory === "Content & Design" ? "project-modal__nav--artwork" : "project-modal__nav--details"}`} aria-label="Next project" onClick={() => moveProject(1)}>›</button> : null}
         </div>
       ) : null}
     </section>
