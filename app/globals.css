@@ -31,6 +31,13 @@ html.dark {
   --on-ink: #171717;
 }
 
+/* System font stacks keep builds independent of external font downloads. */
+:root {
+  --font-inter: Arial, Helvetica, sans-serif;
+  --font-poppins: "Trebuchet MS", Arial, sans-serif;
+  --font-pixel: "Courier New", monospace;
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);

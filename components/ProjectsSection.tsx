@@ -68,6 +68,11 @@ const pubmatProjects = [
 ];
 
 const projects = [retailProject, automationProject, ...pubmatProjects];
+type Project = (typeof projects)[number];
+
+function isAutomationProject(project: Project): project is typeof automationProject {
+  return project.filterCategory === "Automation";
+}
 
 type ModalState = "closed" | "opening" | "open" | "closing";
 
@@ -79,7 +84,7 @@ export default function ProjectsSection() {
   const displayedProjects = visibleProjects.slice(0, 4);
   const hasMoreProjects = visibleProjects.length > 4;
   const galleryTitle = selectedCategory ?? "All Projects";
-  const [project, setProject] = useState<(typeof projects)[number]>(retailProject);
+  const [project, setProject] = useState<Project>(retailProject);
   const [modalState, setModalState] = useState<ModalState>("closed");
   const [isGalleryOpen, setIsGalleryOpen] = useState(false);
   const dialogRef = useRef<HTMLDivElement>(null);
@@ -161,7 +166,7 @@ export default function ProjectsSection() {
     };
   }, []);
 
-  function openModal(selectedProject: (typeof projects)[number]) {
+  function openModal(selectedProject: Project) {
     if (closeTimerRef.current !== null) {
       window.clearTimeout(closeTimerRef.current);
       closeTimerRef.current = null;
@@ -310,8 +315,8 @@ export default function ProjectsSection() {
               </div>
             ) : (
             <>
-            <div className={`grid gap-8 md:gap-10 ${"overview" in project ? "" : "md:grid-cols-[minmax(0,1.2fr)_minmax(15rem,0.8fr)] md:items-center"}`}>
-              <div className={`relative overflow-hidden rounded-md border border-[var(--line)] bg-[var(--surface)] ${"overview" in project ? "aspect-[1267/707]" : project.filterCategory === "Content & Design" ? "aspect-[4/5]" : "aspect-[16/10]"}`}>
+            <div className={`grid gap-8 md:gap-10 ${isAutomationProject(project) ? "" : "md:grid-cols-[minmax(0,1.2fr)_minmax(15rem,0.8fr)] md:items-center"}`}>
+              <div className={`relative overflow-hidden rounded-md border border-[var(--line)] bg-[var(--surface)] ${isAutomationProject(project) ? "aspect-[1267/707]" : project.filterCategory === "Content & Design" ? "aspect-[4/5]" : "aspect-[16/10]"}`}>
                 {project === automationProject ? (
                   <EmailAutomationGraphic />
                 ) : (
@@ -319,21 +324,21 @@ export default function ProjectsSection() {
                   src={project.image}
                   alt={project === retailProject ? "Retail Sales and Customer Analytics Dashboard" : project.title}
                   fill
-                  sizes={"overview" in project ? "(max-width: 639px) calc(100vw - 5.5rem), (max-width: 1127px) calc(100vw - 7rem), 1014px" : "(max-width: 767px) calc(100vw - 4rem), 52vw"}
+                  sizes={isAutomationProject(project) ? "(max-width: 639px) calc(100vw - 5.5rem), (max-width: 1127px) calc(100vw - 7rem), 1014px" : "(max-width: 767px) calc(100vw - 4rem), 52vw"}
                   className="object-contain"
                   priority
                 />
                 )}
               </div>
 
-              <div className={"overview" in project ? "" : "md:py-6"}>
+              <div className={isAutomationProject(project) ? "" : "md:py-6"}>
                 <p className="text-[0.65rem] font-medium tracking-[0.22em] text-[var(--muted-soft)] uppercase">
                   {project.category}
                 </p>
                 <h2 id="project-modal-title" className="mt-3 text-2xl font-bold leading-tight tracking-tight text-[var(--ink)] sm:text-3xl">
                   {project.title}
                 </h2>
-                {"overview" in project ? (
+                {isAutomationProject(project) ? (
                   <>
                     <h3 className="mt-5 text-base font-semibold text-[var(--ink)]">Overview</h3>
                     <p className="mt-2 text-[0.96rem] leading-7 text-[var(--muted)]">{project.overview}</p>
@@ -358,7 +363,7 @@ export default function ProjectsSection() {
                 )}
               </div>
             </div>
-            {"overview" in project ? (
+            {isAutomationProject(project) ? (
               <div className="mt-8 border-t border-[var(--line)] pt-6">
                 <h3 className="text-base font-semibold text-[var(--ink)]">Key Features</h3>
                 <ul className="mt-3 grid list-disc gap-x-10 gap-y-2 pl-5 text-sm leading-6 text-[var(--muted)] md:grid-cols-2">
