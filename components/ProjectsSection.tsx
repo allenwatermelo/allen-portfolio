@@ -24,12 +24,12 @@ const retailProject = {
     "https://docs.google.com/spreadsheets/d/1fwCaFpUriPEOIVT16t6Yuw5UUcSneEgmHZ9mrlFRhgw/edit?usp=sharing",
 };
 
-const dataAnalyticsProject = {
-  filterCategory: "Data & Analytics" satisfies ProjectCategory,
-  category: "Data Analysis",
+const adminSupport2Project = {
+  filterCategory: "Admin Support" satisfies ProjectCategory,
+  category: "Admin Support",
   title: "Task Management To-Do List Dashboard",
-  image: "/images/projects/Data&Analytics2.png",
-  description: "A task tracking dashboard that summarizes total, due-today, pending, and overdue tasks, with start and due dates, priorities, notes, and status for each item.",
+  image: "/images/projects/AdminSupport2.png",
+  description: "An administrative task tracking dashboard that organizes tasks, deadlines, priorities, notes, and status while summarizing pending and overdue work.",
   sheetUrl:
     "https://docs.google.com/spreadsheets/d/1DGPmS_1q5tvGwytU448DSKDTSeCGGWDv8NQL-12lN2M/edit?usp=sharing",
 };
@@ -85,7 +85,7 @@ const pubmatProjects = [
   },
 ];
 
-const projects = [dataAnalyticsProject, retailProject, automationProject, adminSupportProject, ...pubmatProjects];
+const projects = [retailProject, automationProject, adminSupportProject, adminSupport2Project, ...pubmatProjects];
 type Project = (typeof projects)[number];
 
 function isAutomationProject(project: Project): project is typeof automationProject {
@@ -377,7 +377,7 @@ export default function ProjectsSection() {
                 <p className="mt-5 text-[0.96rem] leading-7 text-[var(--muted)]">
                 {"description" in project ? project.description : "Analyzed retail sales and customer data to identify trends, customer behavior, and key revenue drivers. Built an interactive dashboard with KPIs, visualizations, monthly summaries, and key insights to make the data easier to understand."}
                 </p>
-                {project === retailProject || project === dataAnalyticsProject ? <p className="mt-5 text-xs leading-5 text-[var(--muted-soft)]">
+                {project === retailProject ? <p className="mt-5 text-xs leading-5 text-[var(--muted-soft)]">
                   Google Sheets <span aria-hidden="true">•</span> Data Analysis <span aria-hidden="true">•</span> Data Visualization
                 </p> : null}
                 {"sheetUrl" in project ? <a
