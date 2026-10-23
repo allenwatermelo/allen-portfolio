@@ -393,6 +393,18 @@ html.dark .hero-ambient {
   width: min(100%, 48rem, calc((100dvh - 4rem) * 0.8));
   aspect-ratio: 4 / 5;
   animation: project-artwork-pop 500ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+}
+
+.project-modal__artwork-frame--next {
+  transform-origin: left center;
+  animation: project-artwork-flip-next 520ms cubic-bezier(0.2, 0.75, 0.25, 1) both;
+}
+
+.project-modal__artwork-frame--previous {
+  transform-origin: right center;
+  animation: project-artwork-flip-previous 520ms cubic-bezier(0.2, 0.75, 0.25, 1) both;
 }
 
 .project-modal__nav {
@@ -441,6 +453,16 @@ html.dark .hero-ambient {
 @keyframes project-artwork-pop {
   from { opacity: 0; transform: scale(0.94); }
   to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes project-artwork-flip-next {
+  from { opacity: 0.7; transform: perspective(1200px) rotateY(-78deg) translateX(18px); }
+  to { opacity: 1; transform: perspective(1200px) rotateY(0deg) translateX(0); }
+}
+
+@keyframes project-artwork-flip-previous {
+  from { opacity: 0.7; transform: perspective(1200px) rotateY(78deg) translateX(-18px); }
+  to { opacity: 1; transform: perspective(1200px) rotateY(0deg) translateX(0); }
 }
 
 .project-modal__content::-webkit-scrollbar {

@@ -24,6 +24,16 @@ const retailProject = {
     "https://docs.google.com/spreadsheets/d/1fwCaFpUriPEOIVT16t6Yuw5UUcSneEgmHZ9mrlFRhgw/edit?usp=sharing",
 };
 
+const dataAnalyticsProject = {
+  filterCategory: "Data & Analytics" satisfies ProjectCategory,
+  category: "Data Analysis",
+  title: "Task Management To-Do List Dashboard",
+  image: "/images/projects/Data&Analytics2.png",
+  description: "A task tracking dashboard that summarizes total, due-today, pending, and overdue tasks, with start and due dates, priorities, notes, and status for each item.",
+  sheetUrl:
+    "https://docs.google.com/spreadsheets/d/1DGPmS_1q5tvGwytU448DSKDTSeCGGWDv8NQL-12lN2M/edit?usp=sharing",
+};
+
 const automationProject = {
   filterCategory: "Automation" satisfies ProjectCategory,
   category: "Automation Project",
@@ -41,6 +51,14 @@ const automationProject = {
     "Creates Gmail draft replies only when a response is needed",
     "Keeps the final send action under human review",
   ],
+};
+
+const adminSupportProject = {
+  filterCategory: "Admin Support" satisfies ProjectCategory,
+  category: "Admin Support",
+  title: "Professional Email Management",
+  image: "/images/projects/AdminSupport1.png",
+  description: "A portfolio example of professional email management, including clear workplace replies, follow-up templates, inbox categorization, and draft inquiries.",
 };
 
 const pubmatProjects = [
@@ -67,7 +85,7 @@ const pubmatProjects = [
   },
 ];
 
-const projects = [retailProject, automationProject, ...pubmatProjects];
+const projects = [dataAnalyticsProject, retailProject, automationProject, adminSupportProject, ...pubmatProjects];
 type Project = (typeof projects)[number];
 
 function isAutomationProject(project: Project): project is typeof automationProject {
@@ -87,6 +105,7 @@ export default function ProjectsSection() {
   const [project, setProject] = useState<Project>(retailProject);
   const [modalState, setModalState] = useState<ModalState>("closed");
   const [canNavigateProjects, setCanNavigateProjects] = useState(true);
+  const [artworkFlipDirection, setArtworkFlipDirection] = useState<-1 | 1 | null>(null);
   const [isGalleryOpen, setIsGalleryOpen] = useState(false);
   const dialogRef = useRef<HTMLDivElement>(null);
   const galleryDialogRef = useRef<HTMLDivElement>(null);
@@ -102,6 +121,7 @@ export default function ProjectsSection() {
     const nextIndex = (currentIndex + direction + navigationProjects.length) % navigationProjects.length;
     const nextProject = navigationProjects[nextIndex];
     if (nextProject) {
+      setArtworkFlipDirection(direction);
       selectedProjectRef.current = nextProject;
       setProject(nextProject);
     }
@@ -178,6 +198,7 @@ export default function ProjectsSection() {
     selectedProjectRef.current = selectedProject;
     navigationProjectsRef.current = navigationProjects;
     setCanNavigateProjects(navigationProjects.length > 1);
+    setArtworkFlipDirection(null);
     setProject(selectedProject);
     setModalState("opening");
     window.requestAnimationFrame(() => setModalState("open"));
@@ -315,13 +336,16 @@ export default function ProjectsSection() {
 
             <div className={`project-modal__content ${project.filterCategory === "Content & Design" ? "project-modal__content--artwork" : ""}`} tabIndex={0} role="region" aria-label={project.filterCategory === "Content & Design" ? "Artwork preview" : "Project content"}>
             {project.filterCategory === "Content & Design" ? (
-              <div key={project.image} className="project-modal__artwork-frame">
+              <div
+                key={project.image}
+                className={`project-modal__artwork-frame${artworkFlipDirection === null ? "" : artworkFlipDirection === 1 ? " project-modal__artwork-frame--next" : " project-modal__artwork-frame--previous"}`}
+              >
                 <Image src={project.image} alt={project.title} fill sizes="(max-width: 639px) calc(100vw - 8rem), 48rem" className="object-contain" priority />
               </div>
             ) : (
             <>
-            <div className={`grid gap-8 md:gap-10 ${isAutomationProject(project) ? "" : "md:grid-cols-[minmax(0,1.2fr)_minmax(15rem,0.8fr)] md:items-center"}`}>
-              <div className={`relative overflow-hidden rounded-md border border-[var(--line)] bg-[var(--surface)] ${isAutomationProject(project) ? "aspect-[1267/707]" : project.filterCategory === "Content & Design" ? "aspect-[4/5]" : "aspect-[16/10]"}`}>
+            <div className={`grid gap-8 md:gap-10 ${isAutomationProject(project) ? "" : project.filterCategory === "Admin Support" ? "" : "md:grid-cols-[minmax(0,1.2fr)_minmax(15rem,0.8fr)] md:items-center"}`}>
+              <div className={`relative overflow-hidden rounded-md border border-[var(--line)] bg-[var(--surface)] ${isAutomationProject(project) ? "aspect-[1267/707]" : project.filterCategory === "Content & Design" ? "aspect-[4/5]" : project.filterCategory === "Admin Support" ? "mx-auto h-[min(72dvh,52rem)] w-full max-w-[64rem]" : "aspect-[16/10]"}`}>
                 {project === automationProject ? (
                   <EmailAutomationGraphic />
                 ) : (
@@ -329,14 +353,14 @@ export default function ProjectsSection() {
                   src={project.image}
                   alt={project === retailProject ? "Retail Sales and Customer Analytics Dashboard" : project.title}
                   fill
-                  sizes={isAutomationProject(project) ? "(max-width: 639px) calc(100vw - 5.5rem), (max-width: 1127px) calc(100vw - 7rem), 1014px" : "(max-width: 767px) calc(100vw - 4rem), 52vw"}
+                  sizes={isAutomationProject(project) ? "(max-width: 639px) calc(100vw - 5.5rem), (max-width: 1127px) calc(100vw - 7rem), 1014px" : project.filterCategory === "Admin Support" ? "(max-width: 767px) calc(100vw - 4rem), 64rem" : "(max-width: 767px) calc(100vw - 4rem), 52vw"}
                   className="object-contain"
                   priority
                 />
                 )}
               </div>
 
-              <div className={isAutomationProject(project) ? "" : "md:py-6"}>
+              <div className={isAutomationProject(project) || project.filterCategory === "Admin Support" ? "" : "md:py-6"}>
                 <p className="text-[0.65rem] font-medium tracking-[0.22em] text-[var(--muted-soft)] uppercase">
                   {project.category}
                 </p>
@@ -353,10 +377,10 @@ export default function ProjectsSection() {
                 <p className="mt-5 text-[0.96rem] leading-7 text-[var(--muted)]">
                 {"description" in project ? project.description : "Analyzed retail sales and customer data to identify trends, customer behavior, and key revenue drivers. Built an interactive dashboard with KPIs, visualizations, monthly summaries, and key insights to make the data easier to understand."}
                 </p>
-                {project === retailProject ? <p className="mt-5 text-xs leading-5 text-[var(--muted-soft)]">
+                {project === retailProject || project === dataAnalyticsProject ? <p className="mt-5 text-xs leading-5 text-[var(--muted-soft)]">
                   Google Sheets <span aria-hidden="true">•</span> Data Analysis <span aria-hidden="true">•</span> Data Visualization
                 </p> : null}
-                {project === retailProject ? <a
+                {project === retailProject || project === dataAnalyticsProject ? <a
                   href={project.sheetUrl}
                   target="_blank"
                   rel="noopener noreferrer"
