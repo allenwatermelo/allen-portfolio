@@ -364,9 +364,19 @@ export default function ProjectsSection() {
                 <p className="text-[0.65rem] font-medium tracking-[0.22em] text-[var(--muted-soft)] uppercase">
                   {project.category}
                 </p>
-                <h2 id="project-modal-title" className="mt-3 text-2xl font-bold leading-tight tracking-tight text-[var(--ink)] sm:text-3xl">
-                  {project.title}
-                </h2>
+                <div className="mt-3 flex flex-wrap items-center gap-x-6 gap-y-3">
+                  <h2 id="project-modal-title" className="min-w-0 flex-1 text-2xl font-bold leading-tight tracking-tight text-[var(--ink)] sm:text-3xl">
+                    {project.title}
+                  </h2>
+                  {"sheetUrl" in project ? <a
+                    href={project.sheetUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex shrink-0 items-center gap-3 rounded-md bg-[var(--ink)] px-5 py-2.5 text-sm font-medium text-[var(--on-ink)] transition-transform duration-300 ease-out hover:-translate-y-0.5"
+                  >
+                    View in Google Sheet <span aria-hidden="true">-&gt;</span>
+                  </a> : null}
+                </div>
                 {isAutomationProject(project) ? (
                   <>
                     <h3 className="mt-5 text-base font-semibold text-[var(--ink)]">Overview</h3>
@@ -380,14 +390,6 @@ export default function ProjectsSection() {
                 {project === retailProject ? <p className="mt-5 text-xs leading-5 text-[var(--muted-soft)]">
                   Google Sheets <span aria-hidden="true">•</span> Data Analysis <span aria-hidden="true">•</span> Data Visualization
                 </p> : null}
-                {"sheetUrl" in project ? <a
-                  href={project.sheetUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-7 inline-flex items-center gap-3 rounded-md bg-[var(--ink)] px-5 py-2.5 text-sm font-medium text-[var(--on-ink)] transition-transform duration-300 ease-out hover:-translate-y-0.5"
-                >
-                  View in Google Sheet <span aria-hidden="true">-&gt;</span>
-                </a> : null}
                   </>
                 )}
               </div>
