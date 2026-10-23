@@ -380,7 +380,7 @@ export default function ProjectsSection() {
                 {project === retailProject || project === dataAnalyticsProject ? <p className="mt-5 text-xs leading-5 text-[var(--muted-soft)]">
                   Google Sheets <span aria-hidden="true">•</span> Data Analysis <span aria-hidden="true">•</span> Data Visualization
                 </p> : null}
-                {project === retailProject || project === dataAnalyticsProject ? <a
+                {"sheetUrl" in project ? <a
                   href={project.sheetUrl}
                   target="_blank"
                   rel="noopener noreferrer"
