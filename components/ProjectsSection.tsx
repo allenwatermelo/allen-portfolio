@@ -83,6 +83,13 @@ const pubmatProjects = [
     image: "/images/projects/PubMat3.jpg",
     description: "A hiring announcement promoting upcoming job fair dates, times, and venues for Savemore Market.",
   },
+  {
+    filterCategory: "Content & Design" satisfies ProjectCategory,
+    category: "Content & Design",
+    title: "PubMat4",
+    image: "/images/projects/PubMat4.png",
+    description: "A certificate of appreciation recognizing Monde Nissin for supporting JOB FAIR ’26 at Davao Oriental State University and helping provide employment opportunities for graduating students and alumni job seekers.",
+  },
 ];
 
 const projects = [retailProject, automationProject, adminSupportProject, adminSupport2Project, ...pubmatProjects];
