@@ -103,11 +103,12 @@ type ModalState = "closed" | "opening" | "open" | "closing";
 
 export default function ProjectsSection() {
   const [selectedCategory, setSelectedCategory] = useState<ProjectCategory | null>(null);
+  const newestFirstProjects = [...projects].reverse();
   const visibleProjects = selectedCategory
-    ? projects.filter((project) => project.filterCategory === selectedCategory)
-    : [...projects].reverse();
+    ? newestFirstProjects.filter((project) => project.filterCategory === selectedCategory)
+    : newestFirstProjects;
   const displayedProjects = visibleProjects.slice(0, 10);
-  const hasMoreProjects = visibleProjects.length > 10;
+  const shouldShowViewAll = visibleProjects.length > 0;
   const galleryTitle = selectedCategory ?? "All Projects";
   const [project, setProject] = useState<Project>(retailProject);
   const [modalState, setModalState] = useState<ModalState>("closed");
@@ -279,7 +280,7 @@ export default function ProjectsSection() {
         </button>
         ))}
         </div>
-        {hasMoreProjects ? (
+        {shouldShowViewAll ? (
           <button type="button" className="portfolio-project-view-all" onClick={() => setIsGalleryOpen(true)} aria-haspopup="dialog">
             View all <span aria-hidden="true">({visibleProjects.length})</span><span aria-hidden="true">↗</span>
           </button>
@@ -303,7 +304,6 @@ export default function ProjectsSection() {
                   <span className="project-gallery-thumbnail">
                     {item === automationProject ? <EmailAutomationGraphic /> : <Image src={item.image} alt="" fill sizes="(max-width: 639px) 42vw, (max-width: 1023px) 28vw, 16rem" className="object-contain" />}
                   </span>
-                  <span className="project-gallery-item-title">{item.title}</span>
                 </button>
               ))}
             </div>
