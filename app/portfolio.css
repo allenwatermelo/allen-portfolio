@@ -361,7 +361,7 @@ html.dark .portfolio-education-honor { border-color: #d5ad37; background: #332b1
 .project-gallery-close:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 .project-gallery-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px; margin-top: 24px; }
 .project-gallery-item { min-width: 0; text-align: left; cursor: pointer; }
-.project-gallery-thumbnail { position: relative; display: block; width: 100%; aspect-ratio: 1; overflow: hidden; border: 1px solid var(--line); border-radius: 9px; background: var(--surface); transition: border-color 180ms ease, transform 220ms ease; }
+.project-gallery-thumbnail { position: relative; display: block; width: 100%; aspect-ratio: 1; overflow: hidden; border: 1px solid var(--line); border-radius: 9px; background: #fff; transition: border-color 180ms ease, transform 220ms ease; }
 .project-gallery-item:hover .project-gallery-thumbnail { transform: translateY(-3px); border-color: var(--accent); }
 .project-gallery-item:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; border-radius: 9px; }
 .project-gallery-item-title { display: block; margin-top: 9px; overflow: hidden; color: var(--ink); font-size: .8rem; font-weight: 550; text-overflow: ellipsis; white-space: nowrap; }
