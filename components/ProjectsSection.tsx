@@ -105,9 +105,9 @@ export default function ProjectsSection() {
   const [selectedCategory, setSelectedCategory] = useState<ProjectCategory | null>(null);
   const visibleProjects = selectedCategory
     ? projects.filter((project) => project.filterCategory === selectedCategory)
-    : projects;
-  const displayedProjects = visibleProjects.slice(0, 4);
-  const hasMoreProjects = visibleProjects.length > 4;
+    : [...projects].reverse();
+  const displayedProjects = visibleProjects.slice(0, 10);
+  const hasMoreProjects = visibleProjects.length > 10;
   const galleryTitle = selectedCategory ?? "All Projects";
   const [project, setProject] = useState<Project>(retailProject);
   const [modalState, setModalState] = useState<ModalState>("closed");
@@ -263,7 +263,7 @@ export default function ProjectsSection() {
           aria-haspopup="dialog"
           aria-label={project.filterCategory === "Content & Design" ? `View ${project.title} artwork` : `View ${project.title} details`}
         >
-          <span className="portfolio-project__image portfolio-project__image--thumbnail relative block w-full overflow-hidden border-b border-[var(--line)] bg-[var(--surface)] aspect-square">
+          <span className="portfolio-project__image portfolio-project__image--thumbnail relative block w-full overflow-hidden border-b border-[var(--line)] bg-[#ededed] aspect-square">
             {project === automationProject ? (
               <EmailAutomationGraphic className="transition-transform duration-[400ms] ease-out group-hover:scale-[1.025]" />
             ) : (

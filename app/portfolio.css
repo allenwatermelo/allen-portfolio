@@ -237,9 +237,9 @@ html.dark .portfolio-education-honor { border-color: #d5ad37; background: #332b1
 .portfolio-project__image--artwork { width: 100%; height: 100%; margin: 0; border: 1px solid var(--line); border-radius: 9px; background: var(--surface); }
 .portfolio-project--artwork:hover { border: 0; box-shadow: none; }
 .portfolio-project--artwork:hover .portfolio-project__image--artwork { border-color: var(--accent); box-shadow: 0 4px 0 var(--accent-soft); }
-.portfolio-project-grid--all { gap: 16px; }
-.portfolio-project-grid--all .portfolio-project--thumbnail { width: 176px; height: 176px; flex: 0 0 176px; align-self: flex-start; overflow: visible; border: 0; border-radius: 9px; background: transparent; }
-.portfolio-project-grid--all .portfolio-project__image--thumbnail { width: 100%; height: 100%; aspect-ratio: 1; margin: 0; border: 1px solid var(--line); border-radius: 9px; background: var(--surface); }
+.portfolio-project-grid--all { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 16px; }
+.portfolio-project-grid--all .portfolio-project--thumbnail { width: 100%; height: auto; aspect-ratio: 1; min-width: 0; flex: none; align-self: flex-start; overflow: visible; border: 0; border-radius: 9px; background: transparent; }
+.portfolio-project-grid--all .portfolio-project__image--thumbnail { width: 100%; height: 100%; aspect-ratio: 1; margin: 0; border: 1px solid var(--line); border-radius: 9px; background: #ededed !important; }
 .portfolio-project-grid--all .portfolio-project--thumbnail .portfolio-project__copy { display: none; }
 .portfolio-project-grid--all .portfolio-project--thumbnail:hover { border: 0; box-shadow: none; }
 .portfolio-project-grid--all .portfolio-project--thumbnail:hover .portfolio-project__image--thumbnail { border-color: var(--accent); box-shadow: 0 4px 0 var(--accent-soft); }
@@ -265,7 +265,6 @@ html.dark .portfolio-education-honor { border-color: #d5ad37; background: #332b1
   .portfolio-project:not(.portfolio-project--artwork) { width: 100%; }
   .portfolio-project--artwork { width: min(176px, calc(50% - 10px)); height: auto; aspect-ratio: 1; flex-basis: min(176px, calc(50% - 10px)); }
   .portfolio-project-grid--all { gap: 10px; }
-  .portfolio-project-grid--all .portfolio-project--thumbnail { width: min(176px, calc((100% - 10px) / 2)); height: auto; aspect-ratio: 1; flex-basis: min(176px, calc((100% - 10px) / 2)); }
   .portfolio-layout .tools-shelf { grid-template-columns: repeat(4, minmax(0, 1fr)); }
   .portfolio-layout .tools-shelf__item:nth-child(n+5) { border-top: 1px solid var(--line); }
   .portfolio-layout .tools-shelf__item:nth-child(5) { border-left: 0; }
@@ -371,6 +370,7 @@ html.dark .portfolio-education-honor { border-color: #d5ad37; background: #332b1
 @media (max-width: 767px) {
   .portfolio-project-grid { gap: 10px; }
   .portfolio-project-grid .portfolio-project--thumbnail { width: min(176px, calc((100% - 10px) / 2)); height: auto; aspect-ratio: 1; flex-basis: min(176px, calc((100% - 10px) / 2)); }
+  .portfolio-project-grid--all .portfolio-project--thumbnail { width: 100%; flex-basis: auto; }
   .project-gallery-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
 }
 @media (max-width: 520px) {
