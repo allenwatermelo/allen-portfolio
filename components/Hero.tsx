@@ -19,7 +19,7 @@ export default function Hero() {
         <p className="hero-sequence hero-sequence--label text-[0.7rem] font-medium tracking-[0.22em] text-[var(--muted-soft)] uppercase">
           Data · Automation · Digital solutions
         </p>
-        <h1 className="hero-sequence hero-sequence--title mt-3 text-4xl font-bold tracking-tight text-[var(--ink)] sm:text-5xl lg:text-[3.35rem] lg:leading-[1.1]">
+        <h1 className="hero-sequence hero-sequence--title mt-3 text-[1.85rem] font-bold tracking-tight text-pretty text-[var(--ink)] sm:text-4xl md:text-5xl lg:text-[3.35rem] lg:leading-[1.1]">
           Allen Jean Lagangga
         </h1>
         <p className="hero-sequence hero-sequence--role mt-3 text-lg text-[var(--muted)]">
@@ -30,10 +30,10 @@ export default function Hero() {
           I organize data, streamline repetitive tasks, and create practical digital solutions, from data analysis and administrative workflows to automation and visual design.
         </p>
 
-        <div className="hero-sequence hero-sequence--actions mt-8 flex flex-wrap items-center gap-3">
+        <div className="hero-sequence hero-sequence--actions mt-8 flex flex-col items-stretch gap-3 min-[420px]:flex-row min-[420px]:flex-wrap min-[420px]:items-center">
           <a
             href="#projects"
-            className="inline-flex items-center justify-center rounded-md bg-[var(--ink)] px-5 py-2.5 text-sm font-medium text-[var(--on-ink)] transition-colors duration-200 hover:opacity-85"
+            className="inline-flex min-h-11 items-center justify-center rounded-md bg-[var(--ink)] px-5 py-2.5 text-sm font-medium text-[var(--on-ink)] transition-[transform,opacity,box-shadow] duration-300 ease-out hover:opacity-90 motion-safe:hover:-translate-y-0.5"
           >
             View My Work
           </a>
@@ -41,7 +41,7 @@ export default function Hero() {
             href={resumePath}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center justify-center gap-2 rounded-md border border-[var(--line-strong)] bg-[var(--surface)] px-5 py-2.5 text-sm font-medium text-[var(--ink)] transition-colors duration-200 hover:border-[var(--ink)] hover:bg-[var(--surface-hover)]"
+            className="inline-flex min-h-11 items-center justify-center gap-2 rounded-md border border-[var(--line-strong)] bg-[var(--surface)] px-5 py-2.5 text-sm font-medium text-[var(--ink)] transition-[transform,border-color,background-color] duration-300 ease-out hover:border-[var(--ink)] hover:bg-[var(--surface-hover)] motion-safe:hover:-translate-y-0.5"
           >
             View CV
             <span aria-hidden="true">↗</span>

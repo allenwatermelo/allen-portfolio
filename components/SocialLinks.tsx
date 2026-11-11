@@ -8,7 +8,7 @@ const icons = {
 
 export default function SocialLinks() {
   return (
-    <ul className="flex flex-wrap items-center gap-6">
+    <ul className="flex flex-wrap items-center gap-x-5 gap-y-3 sm:gap-6">
       {socialLinks.map((link) => {
         const Icon = icons[link.name];
 
@@ -18,7 +18,7 @@ export default function SocialLinks() {
               href={link.href}
               target={link.name === "email" ? undefined : "_blank"}
               rel={link.name === "email" ? undefined : "noopener noreferrer"}
-              className="inline-flex items-center gap-2 text-sm text-[var(--muted)] transition-colors duration-200 hover:text-[var(--ink)]"
+              className="inline-flex items-center gap-2 text-sm text-[var(--muted)] transition-[color,transform] duration-300 ease-out hover:text-[var(--ink)] motion-safe:hover:-translate-y-px"
             >
               <Icon className="h-4 w-4" />
               <span>{link.label}</span>

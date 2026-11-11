@@ -114,7 +114,7 @@ export default function ContactSection() {
             aria-modal="true"
             aria-labelledby="contact-dialog-title"
             tabIndex={-1}
-            className="w-full max-w-md rounded-2xl border border-[var(--line)] bg-[var(--background)] p-6 shadow-2xl outline-none sm:p-8"
+            className="max-h-[min(100dvh-2rem,40rem)] w-full max-w-md overflow-y-auto rounded-2xl border border-[var(--line)] bg-[var(--background)] p-6 shadow-2xl outline-none sm:p-8"
           >
             <div className="flex items-start justify-between gap-6">
               <div>

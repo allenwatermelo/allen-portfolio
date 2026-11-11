@@ -376,3 +376,200 @@ html.dark .portfolio-education-honor { border-color: #d5ad37; background: #332b1
 @media (max-width: 520px) {
   .project-gallery-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
+
+.nav-link::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  height: 1px;
+  width: 0;
+  background: currentColor;
+  transform: translateX(-50%);
+  transition: width 350ms ease-out;
+}
+
+.nav-link:hover::after,
+.nav-link-active::after {
+  width: 1.15rem;
+}
+
+.mobile-nav {
+  display: grid;
+  grid-template-rows: 0fr;
+  overflow: hidden;
+  border-top: 1px solid transparent;
+  transition: grid-template-rows 420ms ease-out, border-color 420ms ease-out;
+}
+
+.mobile-nav--open {
+  grid-template-rows: 1fr;
+  border-top-color: var(--line);
+}
+
+.mobile-nav__inner {
+  min-height: 0;
+}
+
+.portfolio-layout > section,
+.portfolio-hero h1,
+.portfolio-hero .hero-sequence--role {
+  overflow-wrap: anywhere;
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .portfolio-hero {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 28px;
+    padding: 32px;
+  }
+
+  .portfolio-hero__copy {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  .portfolio-portrait {
+    width: min(220px, 42vw);
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .portfolio-portrait__caption {
+    text-align: left;
+  }
+
+  .portfolio-layout .tools-shelf {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .portfolio-layout .tools-shelf__item:nth-child(n + 5) {
+    border-top: 1px solid var(--line);
+  }
+
+  .portfolio-layout .tools-shelf__item:nth-child(5) {
+    border-left: 0;
+  }
+
+  .portfolio-project-grid--all {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .project-gallery-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 899px) {
+  .portfolio-about-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 18px;
+  }
+
+  .portfolio-about-grid > :nth-child(3) {
+    grid-column: 1;
+    grid-row: auto;
+  }
+
+  .portfolio-project-grid--all {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 639px) {
+  .portfolio-layout {
+    width: calc(100% - 16px);
+    margin: 10px auto;
+    gap: 12px;
+  }
+
+  .portfolio-hero {
+    padding: 20px;
+    gap: 22px;
+  }
+
+  .portfolio-portrait {
+    width: min(168px, 52vw);
+  }
+
+  .portfolio-hero .hero-sequence--role {
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+
+  .portfolio-hero .hero-sequence--description {
+    font-size: 0.88rem;
+  }
+
+  .portfolio-layout #about,
+  .portfolio-layout #projects > .scroll-reveal,
+  .portfolio-layout #skills > div {
+    padding: 18px;
+  }
+
+  .portfolio-layout #contact > .relative {
+    padding: 24px 18px 16px;
+  }
+
+  .portfolio-project-grid--all {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  header nav {
+    padding-inline: 16px;
+  }
+}
+
+@media (min-width: 1024px) and (max-width: 1279px) {
+  .portfolio-hero {
+    grid-template-columns: 200px minmax(0, 1fr);
+    gap: 36px;
+    padding: 32px;
+  }
+
+  .portfolio-project-grid--all {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .portfolio-project-grid .portfolio-project--thumbnail {
+    transition: transform 450ms ease-out;
+  }
+
+  .portfolio-project-grid .portfolio-project--thumbnail:hover {
+    transform: translateY(-4px);
+  }
+
+  .portfolio-project-grid .portfolio-project--thumbnail:hover .portfolio-project__image--thumbnail {
+    border-color: var(--accent);
+    box-shadow: 0 10px 22px rgba(0, 0, 0, 0.08);
+  }
+
+  .project-gallery-item:hover .project-gallery-thumbnail {
+    transform: translateY(-4px);
+  }
+
+  .toolkit__tag {
+    transition: border-color 300ms ease-out, transform 300ms ease-out;
+  }
+
+  .toolkit__tag:hover {
+    border-color: var(--line-strong);
+    transform: translateY(-1px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav-link::after,
+  .mobile-nav,
+  .toolkit__tag {
+    transition: none;
+  }
+
+  .portfolio-project-grid .portfolio-project--thumbnail:hover,
+  .project-gallery-item:hover .project-gallery-thumbnail,
+  .toolkit__tag:hover {
+    transform: none;
+  }
+}

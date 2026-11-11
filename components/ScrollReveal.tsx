@@ -23,7 +23,15 @@ export default function ScrollReveal({
   useEffect(() => {
     const element = elementRef.current;
 
-    if (!element || !("IntersectionObserver" in window)) return;
+    if (!element || !("IntersectionObserver" in window)) {
+      setIsAnimating(true);
+      return;
+    }
+
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setIsAnimating(true);
+      return;
+    }
 
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -31,7 +39,7 @@ export default function ScrollReveal({
         setIsAnimating(true);
         observer.disconnect();
       },
-      { threshold: 0.14, rootMargin: "0px 0px -8%" },
+      { threshold: 0.08, rootMargin: "0px 0px -40px" },
     );
 
     observer.observe(element);

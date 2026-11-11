@@ -90,6 +90,27 @@ const pubmatProjects = [
     image: "/images/projects/PubMat4.png",
     description: "A certificate of appreciation recognizing Monde Nissin for supporting JOB FAIR ’26 at Davao Oriental State University and helping provide employment opportunities for graduating students and alumni job seekers.",
   },
+  {
+    filterCategory: "Content & Design" satisfies ProjectCategory,
+    category: "Content & Design",
+    title: "PubMat5",
+    image: "/images/projects/PubMat5.jpg",
+    description: "A hiring announcement for Monde Nissin, designed to promote job opportunities through bold branding and megaphone graphics.",
+  },
+  {
+    filterCategory: "Content & Design" satisfies ProjectCategory,
+    category: "Content & Design",
+    title: "PubMat6",
+    image: "/images/projects/PubMat6.jpg",
+    description: "A recruitment poster for Paramount Human Resource Multi-Purpose Cooperative featuring openings for sales associates, cashiers, and forklift operators.",
+  },
+  {
+    filterCategory: "Content & Design" satisfies ProjectCategory,
+    category: "Content & Design",
+    title: "PubMat7",
+    image: "/images/projects/PubMat7.jpg",
+    description: "A hiring announcement for Full Support Manpower Services Inc., created to promote current job opportunities.",
+  },
 ];
 
 const projects = [retailProject, automationProject, adminSupportProject, adminSupport2Project, ...pubmatProjects];
@@ -266,14 +287,14 @@ export default function ProjectsSection() {
         >
           <span className="portfolio-project__image portfolio-project__image--thumbnail relative block w-full overflow-hidden border-b border-[var(--line)] bg-[#ededed] aspect-square">
             {project === automationProject ? (
-              <EmailAutomationGraphic className="transition-transform duration-[400ms] ease-out group-hover:scale-[1.025]" />
+              <EmailAutomationGraphic />
             ) : (
             <Image
               src={project.image}
               alt={project === retailProject ? "Retail sales and customer analytics dashboard preview" : project.title}
               fill
               sizes="(max-width: 639px) calc(100vw - 2.5rem), (max-width: 1023px) 512px, 480px"
-              className="object-contain transition-transform duration-[400ms] ease-out group-hover:scale-[1.025]"
+              className="object-contain"
             />
             )}
           </span>
