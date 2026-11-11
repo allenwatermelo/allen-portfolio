@@ -111,6 +111,13 @@ const pubmatProjects = [
     image: "/images/projects/PubMat7.jpg",
     description: "A hiring announcement for Full Support Manpower Services Inc., created to promote current job opportunities.",
   },
+  {
+    filterCategory: "Content & Design" satisfies ProjectCategory,
+    category: "Content & Design",
+    title: "PubMat8",
+    image: "/images/projects/PubMat8.jpg",
+    description: "A recruitment poster announcing job openings at Davao Oriental Electric Cooperative, Inc. (DORECO), including roles in geographic information surveying, meter reading, pole agreements, and information services.",
+  },
 ];
 
 const projects = [retailProject, automationProject, adminSupportProject, adminSupport2Project, ...pubmatProjects];
